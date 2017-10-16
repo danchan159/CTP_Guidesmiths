@@ -4,4 +4,6 @@ module.exports = (sequelize, DataTypes) => {
 		ID: DataTypes.STRING,
 		Name: DataTypes.STRING,
 	});
+
+	return Categories;
 }

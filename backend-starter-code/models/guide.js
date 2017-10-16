@@ -6,4 +6,7 @@ module.exports = (sequelize, DataTypes) => {
 		cat_ID: DataTypes.STRING,
 		steps_ID: DataTypes.STRING,
 	});
+
+	return Guide;
+
 }
