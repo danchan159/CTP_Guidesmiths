@@ -1,7 +1,12 @@
 
 module.exports = (sequelize, DataTypes) => {
 	const Categories = sequelize.define('Categories', {
-		ID: DataTypes.STRING,
+		cat_ID: {
+			type: DataTypes.UUID,
+			primaryKey: true,
+			defaultValue: DataTypes.UUIDV4,
+      		allowNull: false
+		},
 		Name: DataTypes.STRING,
 	});
 

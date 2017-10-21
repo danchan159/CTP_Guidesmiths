@@ -15,11 +15,12 @@ passport.use(new LocalStrategy({
     Users.findOne({
       where: { email },
     }).then((user) => {
+
       if(!user) {
         return done(null, false, { message: 'Incorrect email.' });
       }
 
-      if (passwordsMatch(password, user.password) === false) {
+      if (passwordsMatch(password, user.password_hash) === false) {
         return done(null, false, { message: 'Incorrect password.' });
       }
 

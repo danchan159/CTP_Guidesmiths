@@ -37,7 +37,7 @@ router.get('/login',
 router.post('/login', (req, res) => {
   passport.authenticate('local', {
       successRedirect: '/profile',
-      failureRedirect: '/login',
+      failureRedirect: '/error',
     })(req, res);
 })
 
@@ -46,6 +46,7 @@ router.get('/logout', (req, res) =>{
   res.redirect('/login');
 })
 
+/*
 router.get('/', (req, res) => {
   res.json({
     msg: "Successful GET to '/' route"
@@ -71,6 +72,7 @@ router.delete('/:id', (req, res) => {
     id: req.params.id
   });
 });
+*/
 
 
 module.exports = router;

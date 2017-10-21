@@ -1,6 +1,6 @@
 
 module.exports = (sequelize, DataTypes) => {
-	const Step = sequelize.define('Step', {
+	const Steps = sequelize.define('Steps', {
 		post_ID: {
 			type: DataTypes.UUID,
 			primaryKey: true,
@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
 		content: DataTypes.TEXT,
 		gif_location: DataTypes.STRING,
 		guide_ID: DataTypes.STRING,
-	});
+	});	
 
-	return Step;
+	return Steps;
 }
