@@ -9,16 +9,18 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+const expressSession = require('express-session');
+const passport = require('./middlewares/authentication');
+
+app.use(expressSession(({ secret: 'keyboard cat' })));
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Uncomment the following if you want to serve up static assets.
 // (You must create the public folder)
-/*
-app.use(express.static('./public'));
-*/
 
-// Uncomment the following if you want to use handlebars
-// on the backend. (You must create the views folder)
-/*
+app.use(express.static('./public'));
+
 const exphbs = require('express-handlebars');
 app.engine('handlebars', exphbs({
   layoutsDir: './views/layouts',
@@ -26,7 +28,6 @@ app.engine('handlebars', exphbs({
 }));
 app.set('view engine', 'handlebars');
 app.set('views', `${__dirname}/views/`);
-*/
 
 
 
@@ -43,3 +44,4 @@ models.sequelize.sync({force: false})
       console.log(`Server is up and running on port: ${PORT}`)
     });
   });
+
