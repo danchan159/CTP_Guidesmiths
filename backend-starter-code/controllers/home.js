@@ -10,6 +10,14 @@ router.get('/', (req, res) => {
   });
 });
 
+router.get('/test', (req, res) => {
+  console.log(req);
+  res.json({
+    msg: "Successful GET to '/' route",
+    confirm: "confirmation"
+  });
+});
+
 router.post('/', (req, res) => {
   res.json({
     msg: "Successful POST to '/' route"
