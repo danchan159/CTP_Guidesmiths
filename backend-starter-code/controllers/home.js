@@ -12,7 +12,8 @@ router.get('/profile',
 })
 
 router.get('/sign-up', (req, res) => {
-  res.render('sign-up');
+  //res.render('sign-up');
+  res.send('You signed up!');
 })
 
 router.post('/sign-up', (req,res) =>{
@@ -46,13 +47,13 @@ router.get('/logout', (req, res) =>{
   res.redirect('/login');
 })
 
-/*
+
 router.get('/', (req, res) => {
   res.json({
     msg: "Successful GET to '/' route"
   });
 });
-
+/*
 router.post('/', (req, res) => {
   res.json({
     msg: "Successful POST to '/' route"
