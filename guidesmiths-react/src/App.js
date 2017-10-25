@@ -16,7 +16,7 @@ class App extends Component {
   testRequest(){
     
 
-    fetch('/login')
+    fetch('/')
     .then(res => {
       console.log(res);
       return res.json();
@@ -80,7 +80,6 @@ class App extends Component {
   }
 
   handleClick(evt){
-    console.log(evt);
     //let newTest = this.state.test + '1';
     // this.setState({
     //   test: newTest

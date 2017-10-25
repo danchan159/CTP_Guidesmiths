@@ -53,13 +53,14 @@ router.get('/', (req, res) => {
     msg: "Successful GET to '/' route"
   });
 });
-/*
+
 router.post('/', (req, res) => {
   res.json({
     msg: "Successful POST to '/' route"
   });
 });
 
+/*
 router.put('/:id', (req, res) => {
   res.json({
     msg: "Successful PUT to '/' route",
