@@ -7,9 +7,6 @@ module.exports = (sequelize, DataTypes) => {
 			defaultValue: DataTypes.UUIDV4,
       		allowNull: false
 		},
-		user_ID: DataTypes.STRING,
-		cat_ID: DataTypes.STRING,
-		steps_ID: DataTypes.STRING,
 	});
 
 	Guide.associate = (models) => {

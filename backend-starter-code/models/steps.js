@@ -9,7 +9,6 @@ module.exports = (sequelize, DataTypes) => {
 		},
 		content: DataTypes.TEXT,
 		gif_location: DataTypes.STRING,
-		guide_ID: DataTypes.STRING,
 	});	
 
 	return Steps;
