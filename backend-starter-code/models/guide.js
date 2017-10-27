@@ -7,6 +7,7 @@ module.exports = (sequelize, DataTypes) => {
 			defaultValue: DataTypes.UUIDV4,
       		allowNull: false
 		},
+		cover_Image_Location: DataTypes.STRING,
 	});
 
 	Guide.associate = (models) => {
