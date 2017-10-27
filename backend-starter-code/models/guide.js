@@ -14,6 +14,7 @@ module.exports = (sequelize, DataTypes) => {
 		models.Guide.belongsTo(models.Users);
 		models.Guide.hasMany(models.Steps);
 		models.Guide.hasMany(models.Categories);
+		models.Guide.hasMany(models.Comments);
 	}
 
 	return Guide;
