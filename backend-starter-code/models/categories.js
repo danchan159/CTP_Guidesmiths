@@ -7,7 +7,7 @@ module.exports = (sequelize, DataTypes) => {
 			defaultValue: DataTypes.UUIDV4,
       		allowNull: false
 		},
-		Name: DataTypes.STRING,
+		name: DataTypes.STRING,
 	});
 
 	return Categories;

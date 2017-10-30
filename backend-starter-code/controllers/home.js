@@ -12,8 +12,12 @@ router.get('/profile',
 })
 
 router.get('/sign-up', (req, res) => {
-  //res.render('sign-up');
-  res.send('You signed up!');
+  res.render('sign-up');
+  //res.send('You signed up!');
+})
+
+router.get('/post', (req, res) => {
+  res.render('post');
 })
 
 router.post('/sign-up', (req,res) =>{
@@ -26,6 +30,21 @@ router.post('/sign-up', (req,res) =>{
     req.login(user, () =>{
       res.redirect('/profile');
     })
+  })
+})
+
+router.post('/post', (req,res) =>{
+  models.Guide.create({
+    UserId: req.user.id,
+    Steps: [
+      {content: req.body.Step1},
+      {content: req.body.Step2},
+      {content: req.body.Step3},
+    ]
+  }, {
+    include: [ models.Steps ]
+  }).then((user) => {
+    res.redirect('/');
   })
 })
 
