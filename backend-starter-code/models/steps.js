@@ -11,9 +11,5 @@ module.exports = (sequelize, DataTypes) => {
 		gif_location: DataTypes.STRING,
 	});	
 
-	Steps.associate = (models) => {
-		models.Steps.belongsTo(models.Guide);
-	}
-
 	return Steps;
 }
