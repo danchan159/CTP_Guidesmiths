@@ -2,14 +2,13 @@ const bodyParser = require('body-parser');
 const express = require('express');
 const models = require('./models');
 
-const PORT = process.env.PORT || 8000;
+const PORT = process.env.PORT || 8001;
 
 const app = express();
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-<<<<<<< HEAD
 // app.use((req, res, next) => {
 // 	const origin = req.get('origin');
 
@@ -22,8 +21,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 //  //  	res.header('Content-Type', 'application/json');
 // });
 
-=======
->>>>>>> beaa1a0671721a046ee2656cd2a1865d88eef987
 const expressSession = require('express-session');
 const passport = require('./middlewares/authentication');
 
