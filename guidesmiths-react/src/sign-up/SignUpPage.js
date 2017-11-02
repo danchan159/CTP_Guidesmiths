@@ -67,7 +67,10 @@ class SignUpPage extends Component {
         password: this.state.password
       })
     })
-    .then(res => res.json())
+    .then(res => {
+    	console.log(res);
+    	return res.json()
+    })
     .then(json => console.log(json))
     .catch(err => console.log(err));
   }

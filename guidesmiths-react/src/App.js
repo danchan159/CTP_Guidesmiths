@@ -44,7 +44,6 @@ class App extends Component {
           {this.testRequest()}
         </p>
         <div>
-          <button onClick={this.handleClick}>Login</button>
           {this.whatToDisplay()}
           
         </div>
@@ -59,53 +58,20 @@ class App extends Component {
       return(
         <div>
           <div>
-            <LoginPage test="test" tester={"tester"} key={1}/>
+            <LoginPage />
           </div>
         </div>
       );
     }
     else if(display === "GuideListPage") {
-      return <GuideListPage onClick={event => this.handleClick(event)}/>;
+      return <GuideListPage onClick={event => this.handleClick(event)} />;
     }
     else if(display === "SignUpPage") {
-      return <SignUpPage />;
+      return <SignUpPage onSignUp={event => this.handleClick(event)} />;
     }
     else if(display === "GuideFormPage") {
-      return <GuideFormPage onClick={event => this.handleClick(event)}/>;
+      return <GuideFormPage onClick={event => this.handleClick(event)} />;
     }
-  }
-
-  GuideFormPage(){
-    return(
-      <div className="form-group">
-        <form action="" onSubmit={this.handleSubmit()}>
-          First Name:<input type="text" name="firstName" className="form-control"/><br/>
-          Last Name:<input type="text" name="lastName" className="form-control"/><br/>
-          Email: <input type="email" name="email" className="form-control"/><br/>
-          Password: <input type="password" name="password" className="form-control password"/><br/>
-          <button type="submit">Sign Up</button><br/><br/>
-          <button onClick={(event) => this.handleClick(event)}>I have an account</button>
-        </form>
-      </div>
-    );
-  }
-
-  handleSubmit(){
-    // var xmlhttp = new XMLHttpRequest();
-    // var _this = this;
-    // xmlhttp.onreadystatechange = () => {
-    //   if (xmlhttp.readyState === 4) {
-    //     var response = JSON.parse(xmlhttp.responseText);
-    //     if (xmlhttp.status === 200 && response.status === 'OK') {
-    //       _this.setState({ loggedIn: true });
-    //     }
-    //     else {
-    //       _this.setState({ loggedIn: false });
-    //     }
-    //   }
-    // };
-    // xmlhttp.open('POST', 'send', true);
-
   }
 
   handleClick(event){

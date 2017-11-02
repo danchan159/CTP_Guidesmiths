@@ -20,7 +20,7 @@ class GuideFormPage extends Component {
           Last Name:<input type="text" name="lastName" className="form-control"/><br/>
           Email: <input type="email" name="email" className="form-control"/><br/>
           Password: <input type="password" name="password" className="form-control password"/><br/>
-          <input type="submit" value="Submit">Sign Up</input>
+          <input type="submit" value="Submit Guide"></input>
         </form>
       </div>
     );
