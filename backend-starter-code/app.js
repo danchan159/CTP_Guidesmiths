@@ -9,6 +9,18 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+// app.use((req, res, next) => {
+// 	const origin = req.get('origin');
+
+// 	// res.header('Cache-Control', 'no-cache');
+// 	// res.header('Access-Control-Allow-Origin', 'http://localhost:3001');
+// 	// res.header('Access-Control-Allow-Origin', origin);
+//  //  	res.header('Access-Control-Allow-Credentials', true);
+//  //  	res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+//  //  	res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization, Cache-Control, Pragma');
+//  //  	res.header('Content-Type', 'application/json');
+// });
+
 const expressSession = require('express-session');
 const passport = require('./middlewares/authentication');
 
@@ -38,7 +50,7 @@ app.set('views', `${__dirname}/views/`);
 
 // Load up all of the controllers
 const controllers = require('./controllers');
-app.use(controllers)
+app.use('/api', controllers);
 
 
 // First, make sure the Database tables and models are in sync
