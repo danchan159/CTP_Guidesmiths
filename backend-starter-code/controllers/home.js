@@ -15,25 +15,12 @@ router.get('/profile',
     res.send('The secret profile page');
 })
 
-router.get('/sign-up', (req, res) => {
-  res.render('sign-up');
-  //res.send('You signed up!');
-})
-
-router.get('/post', (req, res) => {
-  res.render('post');
-})
-
 router.post('/sign-up', (req,res) =>{
   models.Users.create({
     firstName: req.body.firstName,
     lastName: req.body.lastName,
     email: req.body.email,
     password_hash: req.body.password,
-  }).then((user) => {
-    req.login(user, () =>{
-      res.redirect('/profile');
-    })
   })
 })
 
@@ -47,15 +34,7 @@ router.post('/post', (req,res) =>{
     ]
   }, {
     include: [ models.Steps ]
-  }).then((user) => {
-    res.redirect('/');
   })
-})
-
-router.get('/login', 
-  passport.redirectIfLoggedIn('/profile'),
-  (req, res) => {
-  res.render('login');
 })
 
 router.post('/login', (req, res) => {
@@ -67,10 +46,9 @@ router.post('/login', (req, res) => {
 
 router.get('/logout', (req, res) =>{
   req.logout();
-  res.redirect('/login');
 })
 
-
+/*
 router.get('/', (req, res) => {
   res.json({
     msg: "Successful GET to '/' route"
@@ -83,7 +61,6 @@ router.post('/', (req, res) => {
   });
 });
 
-/*
 router.put('/:id', (req, res) => {
   res.json({
     msg: "Successful PUT to '/' route",
