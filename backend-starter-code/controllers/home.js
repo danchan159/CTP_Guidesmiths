@@ -5,6 +5,10 @@ const passport = require('../middlewares/authentication')
 const router = express.Router();
 
 
+router.get('/whoami', (req, res) => {
+  res.json(req.user);
+})
+
 router.get('/profile', 
   passport.redirectIfNotLoggedIn('/sign-up'), 
   (req, res) => {
