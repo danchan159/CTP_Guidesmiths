@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './GuideListPage.css';
+import GuideContent from '../guideContent/GuideContent.jsx'
 
 class GuideListPage extends Component {
   constructor(props) {
