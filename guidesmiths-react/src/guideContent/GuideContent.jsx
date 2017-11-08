@@ -26,4 +26,4 @@ const GuideContent = (props) => {
     )
 }
 
-module.exports = Guide
+module.exports = GuideContent
