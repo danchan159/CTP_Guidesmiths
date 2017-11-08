@@ -5,6 +5,7 @@ import SignUpPage from './sign-up/SignUpPage.js';
 import LoginPage from './login/LoginPage.js';
 import GuideListPage from './guide-list/GuideListPage.js';
 import GuideFormPage from './guide-form/GuideFormPage.js';
+import GuideViewPage from './guide-view/GuideViewPage.js';
 
 class App extends Component {
 
@@ -12,7 +13,7 @@ class App extends Component {
     super(props);
 
     this.state = {
-      display: "SignUpPage"
+      display: "GuideViewPage"
     };
     this.handleClick = this.handleClick.bind(this);
   }
@@ -35,7 +36,6 @@ class App extends Component {
     return (
       <div className="App">
         <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">Welcome to GuideSmiths</h1>
         </header>
         <p className="App-intro">
@@ -71,6 +71,9 @@ class App extends Component {
     }
     else if(display === "GuideFormPage") {
       return <GuideFormPage onClick={event => this.handleClick(event)} />;
+    }
+    else if(display === "GuideViewPage") {
+      return <GuideViewPage onClick={event => this.handleClick(event)} />;
     }
   }
 
