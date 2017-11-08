@@ -5,15 +5,14 @@ const passport = require('../middlewares/authentication')
 const router = express.Router();
 
 
+router.get('/whoami', (req, res) => {
+  res.json(req.user);
+})
+
 router.get('/profile', 
   passport.redirectIfNotLoggedIn('/sign-up'), 
   (req, res) => {
     res.send('The secret profile page');
-})
-
-router.get('/sign-up', (req, res) => {
-  //res.render('sign-up');
-  res.send('You signed up!');
 })
 
 router.post('/sign-up', (req,res) =>{
@@ -22,17 +21,20 @@ router.post('/sign-up', (req,res) =>{
     lastName: req.body.lastName,
     email: req.body.email,
     password_hash: req.body.password,
-  }).then((user) => {
-    req.login(user, () =>{
-      res.redirect('/profile');
-    })
   })
 })
 
-router.get('/login', 
-  passport.redirectIfLoggedIn('/profile'),
-  (req, res) => {
-  res.render('login');
+router.post('/post', (req,res) =>{
+  models.Guide.create({
+    UserId: req.user.id,
+    Steps: [
+      {content: req.body.Step1},
+      {content: req.body.Step2},
+      {content: req.body.Step3},
+    ]
+  }, {
+    include: [ models.Steps ]
+  })
 })
 
 router.post('/login', (req, res) => {
@@ -44,10 +46,9 @@ router.post('/login', (req, res) => {
 
 router.get('/logout', (req, res) =>{
   req.logout();
-  res.redirect('/login');
 })
 
-
+/*
 router.get('/', (req, res) => {
   res.json({
     msg: "Successful GET to '/' route"
@@ -60,7 +61,6 @@ router.post('/', (req, res) => {
   });
 });
 
-/*
 router.put('/:id', (req, res) => {
   res.json({
     msg: "Successful PUT to '/' route",

@@ -1,114 +1,10 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
-
-
-class LoginPage extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      displayThis: true
-    }
-  }
-
-  render() {
-    return(
-      <div className="form-group">
-        <form action="" onSubmit={this.handleLogin()}>
-          Username: <input type="email" name="email" className="form-control"/><br/>
-          Password: <input type="password" name="password" className="form-control password"/><br/>
-          <button type="submit">Login</button>
-        </form>
-      </div>
-    );
-  }
-
-  handleLogin() {
-    
-  }
-}
-
-class GuideList extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-    }
-  }
-
-  render() {
-    return(
-      <div className="panel panel-body">
-        <label>List of Guides</label><br/><br/>
-        <label>Guide 1</label>
-          <div className="panel panel-body">
-            <ul>
-              <li>
-                <label>Step 1</label>
-                <p>Put instructions and GIF here</p>
-              </li>
-              <li>
-                <label>Step 2</label>
-                <p>Put instructions and GIF here</p>
-              </li>
-              <li>
-                <label>Step n</label>
-                <p>Put instructions and GIF here</p>
-              </li>
-            </ul>
-          </div>
-        <label>Guide 2</label>
-          <div className="panel panel-body">
-            <ul>
-              <li>
-                <label>Step 1</label>
-                <p>Put instructions and GIF here</p>
-              </li>
-              <li>
-                <label>Step 2</label>
-                <p>Put instructions and GIF here</p>
-              </li>
-              <li>
-                <label>Step n</label>
-                <p>Put instructions and GIF here</p>
-              </li>
-            </ul>
-          </div>
-      </div>
-    );
-  }
-}
-
-class GuideForm extends Component {
-  constructor(props){
-    super(props);
-
-    this.state = {
-
-    }
-
-    
-  }
-
-  render() {
-    return(
-      <div className="form-group">
-        <form action="" onSubmit={this.handleSubmit()}>
-          First Name:<input type="text" name="firstName" className="form-control"/><br/>
-          Last Name:<input type="text" name="lastName" className="form-control"/><br/>
-          Email: <input type="email" name="email" className="form-control"/><br/>
-          Password: <input type="password" name="password" className="form-control password"/><br/>
-          <button type="submit">Sign Up</button>
-        </form>
-      </div>
-    );
-  }
-
-  handleSubmit() {
-
-  }
-}
+import SignUpPage from './sign-up/SignUpPage.js';
+import LoginPage from './login/LoginPage.js';
+import GuideListPage from './guide-list/GuideListPage.js';
+import GuideFormPage from './guide-form/GuideFormPage.js';
 
 class App extends Component {
 
@@ -116,14 +12,15 @@ class App extends Component {
     super(props);
 
     this.state = {
-      display: "GuideList"
-    }
+      display: "SignUpPage"
+    };
+    this.handleClick = this.handleClick.bind(this);
   }
 
   testRequest(){
     
 
-    fetch('/')
+    fetch('/api')
     .then(res => {
       console.log(res);
       return res.json();
@@ -155,49 +52,38 @@ class App extends Component {
   }
 
   whatToDisplay() {
-    return this.state.display == "LoginPage" ? <LoginPage display = {this.state.display}/> : this.state.display == "GuideList" ? <GuideList/> : "";
-  }
-
-  GuideForm(){
-    return(
-      <div className="form-group">
-        <form action="" onSubmit={this.handleSubmit()}>
-          First Name:<input type="text" name="firstName" className="form-control"/><br/>
-          Last Name:<input type="text" name="lastName" className="form-control"/><br/>
-          Email: <input type="email" name="email" className="form-control"/><br/>
-          Password: <input type="password" name="password" className="form-control password"/><br/>
-          <button type="submit">Sign Up</button><br/><br/>
-          <button onClick={(event) => this.handleClick(event)}>I have an account</button>
-        </form>
-      </div>
+    
+    let display = this.state.display;
+    if(display === "LoginPage") {
+      return(
+        <div>
+          <div>
+            <LoginPage />
+          </div>
+        </div>
       );
-  }
-
-  handleSubmit(){
-    // var xmlhttp = new XMLHttpRequest();
-    // var _this = this;
-    // xmlhttp.onreadystatechange = () => {
-    //   if (xmlhttp.readyState === 4) {
-    //     var response = JSON.parse(xmlhttp.responseText);
-    //     if (xmlhttp.status === 200 && response.status === 'OK') {
-    //       _this.setState({ loggedIn: true });
-    //     }
-    //     else {
-    //       _this.setState({ loggedIn: false });
-    //     }
-    //   }
-    // };
-    // xmlhttp.open('POST', 'send', true);
-
+    }
+    else if(display === "GuideListPage") {
+      return <GuideListPage onClick={event => this.handleClick(event)} />;
+    }
+    else if(display === "SignUpPage") {
+      return <SignUpPage onSignUp={event => this.handleClick(event)} />;
+    }
+    else if(display === "GuideFormPage") {
+      return <GuideFormPage onClick={event => this.handleClick(event)} />;
+    }
   }
 
   handleClick(event){
-    //let newTest = this.state.test + '1';
-    // this.setState({
-    //   test: newTest
-    // });
-
+    console.log(event);
+    this.setState({
+      display: "GuideListPage"
+    });
   }
+
+  // handleClick(){
+  //   console.log("I was clicked!");
+  // }
 }
 
 export default App;

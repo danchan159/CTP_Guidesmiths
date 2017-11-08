@@ -1,15 +1,15 @@
 
 module.exports = (sequelize, DataTypes) => {
-	const Steps = sequelize.define('Steps', {
-		post_ID: {
+	const Comments = sequelize.define('Comments', {
+		comment_ID: {
 			type: DataTypes.UUID,
 			primaryKey: true,
 			defaultValue: DataTypes.UUIDV4,
       		allowNull: false
 		},
-		content: DataTypes.STRING('180'),
-		gif_location: DataTypes.STRING,
-	});	
+		comment_Text: DataTypes.STRING,
+	});
 
-	return Steps;
+	return Comments;
+
 }
