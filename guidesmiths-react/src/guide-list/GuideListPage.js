@@ -4,11 +4,36 @@ import './GuideListPage.css';
 class GuideListPage extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
+      guides: []
     }
+    this.getAllGuides = this.getAllGuides.bind(this)
   }
 
+  getAllGuides() {
+    fetch('/api/guide')
+      .then(res => res.json())
+      .then(data => data.data)
+      .then(guide => this.setState({guides: guide}))
+      .catch(console.error)
+  }
+
+  render() {
+    console.log("guides = ", this.state.guides)
+    const guides = this.state.guides.map(guide => {
+      return <GuideContent
+        key={`guide${guide.guide_id}`}
+        guide={guide} />
+    })
+
+    return (
+      <div className="container">
+        { guides }
+      </div>
+    )
+  }
+
+  /*
   render() {
     return(
       <div className="panel panel-body">
@@ -49,7 +74,7 @@ class GuideListPage extends Component {
           </div>
       </div>
     );
-  }
+  }*/
 }
 
 export default GuideListPage;
