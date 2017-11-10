@@ -36,7 +36,7 @@ router.post('/sign-up', (req,res) => {
   })
 })
 
-router.post('/post', (req,res) => {
+router.post('/guide-form/post', (req,res) => {
   models.Guide.create({
     UserId: req.user.id,
     Steps: [
@@ -70,7 +70,7 @@ router.post('/login', (req, res) => {
 })
 
 
-
+/*
 router.get('/', (req, res) => {
   res.json({
     msg: "Successful GET to '/' route"
@@ -96,7 +96,7 @@ router.delete('/:id', (req, res) => {
     id: req.params.id
   });
 });
-
+*/
 
 
 module.exports = router;
