@@ -69,7 +69,7 @@ class SignUpPage extends Component {
     })
     .then(res => {
     	console.log(res);
-    	return res.json()
+    	return res.json();
     })
     .then(json => console.log(json))
     .catch(err => console.log(err));
