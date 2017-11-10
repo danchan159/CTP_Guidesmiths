@@ -1,4 +1,7 @@
 import React, { Component } from 'react';
+import { Route, Link, NavLink, Switch } from 'react-router-dom';
+import { Nav, NavItem } from 'react-bootstrap';
+import { LinkContainer } from 'react-router-bootstrap';
 import logo from './logo.svg';
 import './App.css';
 import SignUpPage from './sign-up/SignUpPage.js';
@@ -38,15 +41,19 @@ class App extends Component {
         <header className="App-header">
           <h1 className="App-title">Welcome to GuideSmiths</h1>
         </header>
-        <p className="App-intro">
-        </p>
         <p>
           {this.testRequest()}
         </p>
-        <div>
-          {this.whatToDisplay()}
-          
-        </div>
+        <Nav justified bsStyle="pills">
+          <LinkContainer to="/guide-form"><NavItem>Guide Form</NavItem></LinkContainer>
+          <LinkContainer to="/guide-list"><NavItem>Guide List</NavItem></LinkContainer>
+          <LinkContainer to="/sign-up"><NavItem>Sign Up</NavItem></LinkContainer>
+          <LinkContainer to="/login"><NavItem>Login</NavItem></LinkContainer>
+        </Nav>
+        <Route path="/guide-form" component={GuideFormPage}/>
+        <Route path="/guide-list" component={GuideListPage}/>
+        <Route path="/sign-up" component={SignUpPage}/>
+        <Route path="/login" component={LoginPage}/>
       </div>
     );
   }
