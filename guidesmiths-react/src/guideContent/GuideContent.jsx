@@ -26,4 +26,4 @@ const GuideContent = (props) => {
     )
 }
 
-module.exports = GuideContent
+export default = GuideContent
