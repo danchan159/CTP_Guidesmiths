@@ -17,7 +17,6 @@ class SignUpPage extends Component {
     this.onEmailChange = this.onEmailChange.bind(this);
     this.onPasswordChange = this.onPasswordChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.testPost = this.testPost.bind(this);
   }
 
   render() {
@@ -30,7 +29,6 @@ class SignUpPage extends Component {
           Password: <input type="password" name="password" className="form-control password" onChange={this.onPasswordChange}/><br/>
           <input type="submit" value="Sign Up"></input><br/><br/>
         </form>
-        <button onClick={this.testPost}>Test POST to sign-up</button>
       </div>
     );
   }
@@ -75,25 +73,6 @@ class SignUpPage extends Component {
     .catch(err => console.log(err));
   }
 
-  testPost(event) {
-    console.log(event.target.value);
-    fetch('/api/sign-up', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        firstName: "this.state.firstName",
-        lastName: "this.state.lastName",
-        email: "anEmail@email.com",
-        password: "this.state.password"
-      })
-    })
-    .then(res => res.json())
-    .then(json => console.log(json))
-    .catch(err => console.log(err));
-  }
 }
 
 export default SignUpPage;
