@@ -14,7 +14,6 @@ router.get('/logout', (req, res) => {
 })
 
 router.get('/guide/', (req, res) => {
-  console.log(req.query.id)
   models.Steps.findAll({
     where: {
       GuideGuideID: req.query.id
@@ -26,12 +25,14 @@ router.get('/guide/', (req, res) => {
 })
 
 router.get('/comment', (req, res) => {
-  res.json(models.Comments.findAll({
-      where: {
-        GuideGuideID: req.guide.id
-      }
-    })
-  )
+  models.Comments.findAll({
+    where: {
+      GuideGuideID: req.guide.id
+    }
+  })
+  .then(comments => {
+    res.json(comments);
+  })
 })
 
 router.post('/sign-up', (req,res) => {
@@ -45,7 +46,7 @@ router.post('/sign-up', (req,res) => {
 
 router.post('/guide-form/post', (req,res) => {
   models.Guide.create({
-    UserId: "1",
+    UserId: "1i",
     title: req.body.title,
     subtitle: req.body.subtitle,
     summary: req.body.summary,
