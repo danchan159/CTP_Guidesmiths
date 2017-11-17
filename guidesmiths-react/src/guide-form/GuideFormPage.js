@@ -7,22 +7,25 @@ class GuideFormPage extends Component {
     super(props);
 
     this.state = {
-      value: ""
+      guideTitle: "",
+      stepInfo: []
     }
 
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
-  }
+    this.generateSteps = this.generateSteps.bind(this);
+  };
 
   render() {
     return(
       <form>
-        <FormGroup>
-          <ControlLabel>*Insert Step Here*</ControlLabel>
-          <FormControl type="text" value={this.state.value} placeholder="*Insert Text Here*" onChange={this.handleChange}/>
+        <FormGroup key={0}>
+          <ControlLabel>Guide Title:</ControlLabel>
+          <FormControl type="text" value={this.state.guideTitle} placeholder="My Guide Title" onChange={this.handleChange}/>
           <FormControl.Feedback/>
-          <HelpBlock>*Insert Help Statement Here*</HelpBlock>
+          <HelpBlock>*Insert a short title for your guide.*</HelpBlock>
         </FormGroup>
+        {this.generateSteps(5)}
       </form>
     );
   }
@@ -32,9 +35,35 @@ class GuideFormPage extends Component {
   }
 
   handleChange(event) {
-    this.setState({
-      value: event.target.value
-    });
+    console.log(event.target);
+    if(event.target.placeholder === "My Guide Title") {
+      this.setState({
+        guideTitle: event.target.value
+      });
+    }
+    else {
+      let newStepInfo = this.state.stepInfo;
+      newStepInfo[event.target.index] = event.target.value;
+      this.setState({
+        stepInfo: newStepInfo
+      });
+      console.log(event.target.value);
+    }
+  }
+
+  generateSteps(numSteps) {
+    let steps = [];
+    for(let stepNum = 0; stepNum < numSteps; stepNum++) {
+      steps.push(
+        <FormGroup key={stepNum + 1}>
+          <ControlLabel value={`Step ${stepNum}:`}></ControlLabel>
+          <FormControl index={stepNum} type="text" value={this.state.stepInfo[stepNum]} placeholder={`My Step Text`} onChange={this.handleChange}/>
+          <FormControl.Feedback/>
+          <HelpBlock value={`*Fill in info for step ${stepNum}.*`}></HelpBlock>
+        </FormGroup>
+      );
+    }
+    return steps;
   }
 
 }
