@@ -58,31 +58,31 @@ class App extends Component {
     );
   }
 
-  whatToDisplay() {
+  // whatToDisplay() {
     
-    let display = this.state.display;
-    if(display === "LoginPage") {
-      return(
-        <div>
-          <div>
-            <LoginPage />
-          </div>
-        </div>
-      );
-    }
-    else if(display === "GuideListPage") {
-      return <GuideListPage onClick={event => this.handleClick(event)} />;
-    }
-    else if(display === "SignUpPage") {
-      return <SignUpPage onSignUp={event => this.handleClick(event)} />;
-    }
-    else if(display === "GuideFormPage") {
-      return <GuideFormPage onClick={event => this.handleClick(event)} />;
-    }
-    else if(display === "GuideViewPage") {
-      return <GuideViewPage onClick={event => this.handleClick(event)} />;
-    }
-  }
+  //   let display = this.state.display;
+  //   if(display === "LoginPage") {
+  //     return(
+  //       <div>
+  //         <div>
+  //           <LoginPage />
+  //         </div>
+  //       </div>
+  //     );
+  //   }
+  //   else if(display === "GuideListPage") {
+  //     return <GuideListPage onClick={event => this.handleClick(event)} />;
+  //   }
+  //   else if(display === "SignUpPage") {
+  //     return <SignUpPage onSignUp={event => this.handleClick(event)} />;
+  //   }
+  //   else if(display === "GuideFormPage") {
+  //     return <GuideFormPage onClick={event => this.handleClick(event)} />;
+  //   }
+  //   else if(display === "GuideViewPage") {
+  //     return <GuideViewPage onClick={event => this.handleClick(event)} />;
+  //   }
+  // }
 
   handleClick(event){
     console.log(event);

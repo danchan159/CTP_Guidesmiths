@@ -10,6 +10,10 @@ module.exports = (sequelize, DataTypes) => {
 		comment_Text: DataTypes.STRING,
 	});
 
+	Comments.associate = (models) => {
+		models.Comments.belongsTo(models.Users);
+	}
+
 	return Comments;
 
 }

@@ -8,6 +8,9 @@ module.exports = (sequelize, DataTypes) => {
       		allowNull: false
 		},
 		cover_Image_Location: DataTypes.STRING,
+		title: DataTypes.STRING('80'),
+		subtitle: DataTypes.STRING('120'),
+		summary: DataTypes.STRING,
 	});
 
 	Guide.associate = (models) => {

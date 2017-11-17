@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { FormGroup, FormControl, ControlLabel, HelpBlock } from 'react-bootstrap';
 import './GuideFormPage.css';
 
 class GuideFormPage extends Component {
@@ -6,28 +7,34 @@ class GuideFormPage extends Component {
     super(props);
 
     this.state = {
-
+      value: ""
     }
 
-    
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
 
   render() {
     return(
-      <div className="form-group">
-        <form action="POST" onSubmit={this.handleSubmit}>
-          First Name:<input type="text" name="firstName" className="form-control"/><br/>
-          Last Name:<input type="text" name="lastName" className="form-control"/><br/>
-          Email: <input type="email" name="email" className="form-control"/><br/>
-          Password: <input type="password" name="password" className="form-control password"/><br/>
-          <input type="submit" value="Submit Guide"></input>
-        </form>
-      </div>
+      <form>
+        <FormGroup>
+          <ControlLabel>*Insert Step Here*</ControlLabel>
+          <FormControl type="text" value={this.state.value} placeholder="*Insert Text Here*" onChange={this.handleChange}/>
+          <FormControl.Feedback/>
+          <HelpBlock>*Insert Help Statement Here*</HelpBlock>
+        </FormGroup>
+      </form>
     );
   }
 
   handleSubmit() {
 
+  }
+
+  handleChange(event) {
+    this.setState({
+      value: event.target.value
+    });
   }
 
 }
