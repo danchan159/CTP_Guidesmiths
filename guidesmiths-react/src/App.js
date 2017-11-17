@@ -2,13 +2,13 @@ import React, { Component } from 'react';
 import { Route, Link, NavLink, Switch } from 'react-router-dom';
 import { Nav, NavItem } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
-import logo from './logo.svg';
 import './App.css';
 import SignUpPage from './sign-up/SignUpPage.js';
 import LoginPage from './login/LoginPage.js';
 import GuideListPage from './guide-list/GuideListPage.js';
 import GuideFormPage from './guide-form/GuideFormPage.js';
 import GuideViewPage from './guide-view/GuideViewPage.js';
+import HomePage from './home/HomePage.js';
 
 class App extends Component {
 
@@ -16,7 +16,8 @@ class App extends Component {
     super(props);
 
     this.state = {
-      display: "GuideViewPage"
+      userID: null,
+      loggedIn: false
     };
     this.handleClick = this.handleClick.bind(this);
   }
@@ -44,14 +45,16 @@ class App extends Component {
         <p>
           {this.testRequest()}
         </p>
-        <Nav justified bsStyle="pills">
-          <LinkContainer to="/guide-form"><NavItem>Guide Form</NavItem></LinkContainer>
-          <LinkContainer to="/guide-list"><NavItem>Guide List</NavItem></LinkContainer>
-          <LinkContainer to="/sign-up"><NavItem>Sign Up</NavItem></LinkContainer>
-          <LinkContainer to="/login"><NavItem>Login</NavItem></LinkContainer>
+        <Nav justified activeKey={3} bsStyle="pills">
+          <LinkContainer to="/guide-form"><NavItem eventKey={1}>Guide Form</NavItem></LinkContainer>
+          <LinkContainer to="/guide-list"><NavItem eventKey={2}>Guide List</NavItem></LinkContainer>
+          <LinkContainer exact to="/"><NavItem eventKey={3} ref="home">Home</NavItem></LinkContainer>
+          <LinkContainer to="/sign-up"><NavItem eventKey={4}>Sign Up</NavItem></LinkContainer>
+          <LinkContainer to="/login"><NavItem eventKey={5}>Login</NavItem></LinkContainer>
         </Nav>
         <Route path="/guide-form" component={GuideFormPage}/>
         <Route path="/guide-list" component={GuideListPage}/>
+        <Route exact path="/" component={HomePage}/>
         <Route path="/sign-up" component={SignUpPage}/>
         <Route path="/login" component={LoginPage}/>
       </div>
