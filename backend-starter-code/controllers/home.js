@@ -1,9 +1,12 @@
 const express = require('express');
 const models = require('../models');
-const passport = require('../middlewares/authentication')
-
+const passport = require('../middlewares/authentication');
+const fs = require('fs');
+const multer  = require('multer');
 const router = express.Router();
 
+let path = '../backend-starter-code/gifs/';
+let upload = multer({dest: path})
 
 router.get('/whoami', (req, res) => {
   res.json(req.user);
@@ -44,9 +47,38 @@ router.post('/sign-up', (req,res) => {
   })
 })
 
-router.post('/guide-form/post', (req,res) => {
+router.post('/guide-form/gif', upload.single('photo'), (req, res) => {
+  let new_directory = path+'newFolder/';
+  if (!fs.existsSync(new_directory)){
+    fs.mkdirSync(new_directory);
+  }
+
+  fs.rename(path + req.file.filename, new_directory + req.file.filename, err => {
+    if(err) throw err;
+    console.log('Move complete!');
+  })
+  res.json(req.file);
+})
+
+router.post('/guide-form/gifs', upload.array('gifs', 5), (req, res) => {
+  let new_directory = path+'newFolders/';
+  if (!fs.existsSync(new_directory)){
+    fs.mkdirSync(new_directory);
+  }
+
+  for (let gif of req.files){
+    fs.rename(path + gif.filename, new_directory + gif.filename, err => {
+      if(err) throw err;
+      console.log('Move complete!');
+    })
+  }
+
+  res.json(req.files);
+})
+
+router.post('/guide-form/post', upload.array('gifs', 5), (req,res) => {
   models.Guide.create({
-    UserId: "1i",
+    UserId: "1",
     title: req.body.title,
     subtitle: req.body.subtitle,
     summary: req.body.summary,
@@ -62,6 +94,11 @@ router.post('/guide-form/post', (req,res) => {
     ]
   }, {
     include: [ models.Steps, models.Categories]
+  }).success(guide => {
+    let new_directory = path + guide.guide_ID + '/';
+    if (!fs.existsSync(new_directory)){
+      fs.mkdirSync(new_directory);
+    }
   })
 })
 
@@ -74,10 +111,7 @@ router.post('/comment', (req, res) => {
 })
 
 router.post('/login', (req, res) => {
-  passport.authenticate('local', {
-      successRedirect: '/profile',
-      failureRedirect: '/error',
-    })(req, res);
+  passport.authenticate('local')(req, res);
 })
 
 
