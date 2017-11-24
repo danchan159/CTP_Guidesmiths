@@ -17,13 +17,18 @@ router.get('/logout', (req, res) => {
 })
 
 router.get('/guide/', (req, res) => {
+  let response = null;
   models.Steps.findAll({
     where: {
       GuideGuideID: req.query.id
     }
   })
-  .then(guide => {
-    res.json(guide);
+  .then(steps => {
+    response = steps;
+    models.Guide.findById(req.query.id)
+    .then(guide => {
+      res.json({steps, guide});
+    })
   })
 })
 
@@ -47,6 +52,7 @@ router.post('/sign-up', (req,res) => {
   })
 })
 
+//START OF TEST GIF POSTS
 router.post('/guide-form/gif', upload.single('photo'), (req, res) => {
   let new_directory = path+'newFolder/';
   if (!fs.existsSync(new_directory)){
@@ -61,22 +67,30 @@ router.post('/guide-form/gif', upload.single('photo'), (req, res) => {
 })
 
 router.post('/guide-form/gifs', upload.array('gifs', 5), (req, res) => {
+  let count = 1;
+  let newFileName = null;
   let new_directory = path+'newFolders/';
   if (!fs.existsSync(new_directory)){
     fs.mkdirSync(new_directory);
   }
 
   for (let gif of req.files){
-    fs.rename(path + gif.filename, new_directory + gif.filename, err => {
+    newFileName = "Step" + count;
+    fs.rename(path + gif.filename, new_directory + newFileName, err => {
       if(err) throw err;
       console.log('Move complete!');
     })
+    count++;
   }
 
   res.json(req.files);
 })
+//END OF TEST GIF POSTS
 
 router.post('/guide-form/post', upload.array('gifs', 5), (req,res) => {
+  let count = 1;
+  let newFileName = null;
+
   models.Guide.create({
     UserId: "1",
     title: req.body.title,
@@ -94,11 +108,34 @@ router.post('/guide-form/post', upload.array('gifs', 5), (req,res) => {
     ]
   }, {
     include: [ models.Steps, models.Categories]
-  }).success(guide => {
+  }).then(guide => {
     let new_directory = path + guide.guide_ID + '/';
     if (!fs.existsSync(new_directory)){
       fs.mkdirSync(new_directory);
     }
+
+    for (let gif of req.files){
+      newFileName = "Step" + count;
+      fs.rename(path + gif.filename, new_directory + newFileName, err => {
+        if(err) throw err;
+        console.log('Move complete!');
+      })
+      count++;
+    }
+
+    models.Steps.findAll({
+      where: {
+        GuideGuideID: guide.guide_ID
+      }
+    }).then(steps =>{
+      count = 1;
+      for (let step of steps){        
+        newFileName = "Step" + count;
+        step.gif_location = new_directory + newFileName;
+        step.save();
+        count++;
+      }
+    })
   })
 })
 
