@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
-import './GuideListPage.css';
 import { Jumbotron } from 'react-bootstrap';
-import GuidePreview from '../guide-preview/GuidePreview.js';
+import GuideContent from '../guide-content/GuideContent.js';
 
-class GuideListPage extends Component {
+class GuideContentPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      guides: []
+      guide: []
     }
     this.getAllGuides = this.getAllGuides.bind(this)
   }
@@ -22,20 +21,20 @@ class GuideListPage extends Component {
 
   render() {
     console.log("guides = ", this.state.guides)
-    const guides = this.state.guides.map(guide => {
-      return <GuidePreview
+    const guide = this.state.guide.map(guide => {
+      return <GuideContent
         key={`guide${guide.guide_id}`}
         guide={guide} />
     })
 
     return (
       <Jumbotron>
-        <h1>Guides So Far</h1>
+        <h1> Your Requested Guide </h1>
         <div className="container">
-          <p>The Hottest Guides</p>
-          { guides }
+          { guide }
         </div>
       </Jumbotron>
+      
     )
   }
 
@@ -83,4 +82,4 @@ class GuideListPage extends Component {
   }*/
 }
 
-export default GuideListPage;
+export default GuideContentPage;
