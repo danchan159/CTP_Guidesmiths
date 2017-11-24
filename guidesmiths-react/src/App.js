@@ -7,7 +7,6 @@ import SignUpPage from './sign-up/SignUpPage.js';
 import LoginPage from './login/LoginPage.js';
 import GuideListPage from './guide-list/GuideListPage.js';
 import GuideFormPage from './guide-form/GuideFormPage.js';
-import GuideViewPage from './guide-view/GuideViewPage.js';
 import HomePage from './home/HomePage.js';
 
 class App extends Component {
