@@ -51,7 +51,6 @@ class SignUpPage extends Component {
   }
 
   handleSubmit(event) {
-    console.log(event.target);
     fetch('/api/sign-up', {
       method: 'POST',
       headers: {
