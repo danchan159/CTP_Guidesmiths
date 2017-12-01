@@ -4,6 +4,7 @@ const passport = require('../middlewares/authentication');
 const fs = require('fs');
 const multer  = require('multer');
 const router = express.Router();
+const bodyParser = require('body-parser');
 
 let path = '../backend-starter-code/gifs/';
 let upload = multer({dest: path})
@@ -32,6 +33,13 @@ router.get('/guide/', (req, res) => {
   })
 })
 
+router.get('/guides', (req, res) => {
+  models.Guide.findAll()
+  .then(guides => {
+    res.json(guides);
+  })
+})
+
 router.get('/comment', (req, res) => {
   models.Comments.findAll({
     where: {
@@ -50,6 +58,8 @@ router.post('/sign-up', (req,res) => {
     email: req.body.email,
     passwordHash: req.body.password,
   })
+
+  res.status(200).json("Done");
 })
 
 router.post('/guide-form/post', upload.array('gifs', 5), (req,res) => {
@@ -112,11 +122,9 @@ router.post('/comment', (req, res) => {
   })
 })
 
-router.post('/login', (req, res) => {
-  passport.authenticate('local')(req, res);
-})
-
-
+router.post('/login', passport.authenticate('local'), (req, res) => {
+  console.log("hello")
+});
 
 router.get('/', (req, res) => {
   res.json({
