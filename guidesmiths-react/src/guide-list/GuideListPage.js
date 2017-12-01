@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import './GuideListPage.css';
 import { Jumbotron } from 'react-bootstrap';
-import GuidePreview from '../guide-preview/GuidePreview.js';
+import './GuideListPage.css';
+import GuideContent from '../guide-content/GuideContent.js';
 
 class GuideListPage extends Component {
   constructor(props) {
@@ -12,8 +12,9 @@ class GuideListPage extends Component {
     this.getAllGuides = this.getAllGuides.bind(this)
   }
 
-  getAllGuides() {
-    fetch('/api/guide')
+
+  componentDidMount() {
+    fetch('/api/guides')
       .then(res => res.json())
       .then(data => data.data)
       .then(guide => this.setState({guides: guide}))
@@ -29,17 +30,16 @@ class GuideListPage extends Component {
     })
 
     return (
-      <Jumbotron>
-        <h1>Guides So Far</h1>
+     <Jumbotron>
+        <h1> All Guides </h1>
         <div className="container">
-          <p>The Hottest Guides</p>
+          <p></p>
           { guides }
         </div>
-      </Jumbotron>
     )
   }
 
-  /*
+  {/*
   render() {
     return(
       <div className="panel panel-body">
@@ -80,7 +80,7 @@ class GuideListPage extends Component {
           </div>
       </div>
     );
-  }*/
+  }*/}
 }
 
 export default GuideListPage;
