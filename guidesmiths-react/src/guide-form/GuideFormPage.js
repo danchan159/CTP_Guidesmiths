@@ -81,9 +81,9 @@ class GuideFormPage extends Component {
         Step4Title: this.state.guideSteps[3].title,
         Step5: this.state.guideSteps[4].content,
         Step5Title: this.state.guideSteps[4].title,
-        CatName: "this.state.Categories"
+        CatName: "this.state.Categories",
+        files: this.state.guideSteps.map(step => step.gif)
       }),
-      files: this.state.guideSteps.map(step => step.gif)
     })
     .then(res => {
       console.log(res);
