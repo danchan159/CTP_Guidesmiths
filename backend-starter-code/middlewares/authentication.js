@@ -20,7 +20,7 @@ passport.use(new LocalStrategy({
         return done(null, false, { message: 'Incorrect email.' });
       }
 
-      if (passwordsMatch(password, user.password_hash) === false) {
+      if (passwordsMatch(password, user.passwordHash) === false) {
         return done(null, false, { message: 'Incorrect password.' });
       }
 
