@@ -6,13 +6,14 @@ class GuideContentPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      steps: [],
       guide: []
     }
     this.getAllGuides = this.getAllGuides.bind(this)
   }
 
-  getAllGuides() {
-    fetch('/api/guide')
+  componentDidMount() {
+    fetch('/api/guide/guide?id={this.props.guide_id}')
       .then(res => res.json())
       .then(data => data.data)
       .then(guide => this.setState({guides: guide}))
