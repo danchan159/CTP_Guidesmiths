@@ -123,7 +123,7 @@ router.post('/comment', (req, res) => {
 })
 
 router.post('/login', passport.authenticate('local'), (req, res) => {
-  console.log("hello")
+  res.json(req.user)
 });
 
 router.get('/', (req, res) => {

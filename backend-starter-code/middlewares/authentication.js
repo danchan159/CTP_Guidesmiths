@@ -10,18 +10,22 @@ function passwordsMatch(passwordSubmitted, storedPassword) {
 
 passport.use(new LocalStrategy({
     usernameField: 'email',
+    passwordField: 'password',
   },
   (email, password, done) => {
     Users.findOne({
       where: { email },
     }).then((user) => {
-
       if(!user) {
-        return done(null, false, { message: 'Incorrect email.' });
+        console.log("Incorrect email.")
+        return done(null, false);
       }
 
       if (passwordsMatch(password, user.passwordHash) === false) {
-        return done(null, false, { message: 'Incorrect password.' });
+        console.log(password)
+        console.log(user.passwordHash)
+        console.log("Incorrect password.")
+        return done(null, false);
       }
 
       return done(null, user, { message: 'Successfully Logged In!' });
