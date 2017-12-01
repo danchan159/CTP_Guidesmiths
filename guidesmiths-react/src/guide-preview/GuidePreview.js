@@ -10,9 +10,9 @@ const GuidePreview = (props) => {
 
     return (
         <Panel>
-          <LinkContainer to="`/guide/${guide.id}`"><h2>{guide.title}</h2></LinkContainer>
-          <Route path="`/guide/${guide.id}`" component={GuideContentPage}/>
-          <p>By {guide.Users.email}</p>
+          <LinkContainer to="`/guide/guide?={guide.guideID}`"><h2>{guide.title}</h2></LinkContainer>
+          <Route path="`/guide/guide?={guide.guideID}`" component={GuideContentPage}/>
+          <p>By -need a way to reference the guide author- </p>
           <Image src={guide.cover_Image_Location}/>
             {/*<div className="steps">
               <ul>
