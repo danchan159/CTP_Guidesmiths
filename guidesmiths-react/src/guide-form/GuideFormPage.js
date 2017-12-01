@@ -20,8 +20,9 @@ class GuideFormPage extends Component {
     this.state = {
       guideTitle: "",
       guideSubtitle: "",
-      guideSummary: "Some Summary",
-      guideSteps: []
+      guideSummary: "",
+      guideSteps: [],
+      guideGifs: []
     }
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -35,18 +36,24 @@ class GuideFormPage extends Component {
         <FieldInputGroup
           id="guideTitle"
           label="Guide Title:"
-          help="*Insert a short title for your guide.*"
+          help="*Pick a good title for your guide.*"
           type="text" value={this.state.guideTitle} placeholder="My Guide Title" onChange={this.handleChange}
         />
         <br/>
         <FieldInputGroup
           id="guideSubtitle"
           label="Guide Subtitle:"
-          help="*Insert a short subtitle for your guide.*"
+          help="*This lets you expand on your title just a bit.*"
           type="text" value={this.state.guideSubtitle} placeholder="My Guide Subtitle" onChange={this.handleChange}
         />
         <br/>
         {this.generateSteps(5)}
+        <FieldInputGroup
+          id="guideSummary"
+          label="Guide Summary:"
+          help="*Wrap up your guide with a short summary.*"
+          type="text" componentClass="textarea" value={this.state.guideSummary} placeholder="My Guide Summary" onChange={this.handleChange}
+        />
         <Button type="submit">Submit</Button>
       </form>
     );
@@ -60,6 +67,7 @@ class GuideFormPage extends Component {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
+        userID: this.props.user.userID,
         title: this.state.guideTitle,
         subtitle: this.state.guideSubtitle,
         summary: this.state.guideSummary,
@@ -85,7 +93,6 @@ class GuideFormPage extends Component {
   }
 
   handleChange(event) {
-    console.log(event.target);
     if(event.target.id === "guideTitle") {
       this.setState({
         guideTitle: event.target.value
@@ -96,11 +103,23 @@ class GuideFormPage extends Component {
         guideSubtitle: event.target.value
       });
     }
-    else {
-      let newguideSteps = this.state.guideSteps;
-      newguideSteps[event.target.index] = event.target.value;
+    else if(event.target.id === "guideSummary") {
       this.setState({
-        guideSteps: newguideSteps
+        guideSummary: event.target.value
+      });
+    }
+    else if(event.target.id.startsWith("gif")) {
+      let newGuideGifs = this.state.guideGifs;
+      newGuideGifs[event.target.index] = event.target.value;
+      this.setState({
+        guideGifs: newGuideGifs
+      });
+    }
+    else {
+      let newGuideSteps = this.state.guideSteps;
+      newGuideSteps[event.target.index] = event.target.value;
+      this.setState({
+        guideSteps: newGuideSteps
       });
     }
   }
@@ -113,10 +132,18 @@ class GuideFormPage extends Component {
           <FieldInputGroup
             id={`step${stepNum + 1}`}
             label={`Step ${stepNum + 1}:`}
-            help={`*Fill in info for step ${stepNum}.*`}
-            index={stepNum} type="text" value={this.state.guideSteps[stepNum]} placeholder={`My Step Text`} onChange={this.handleChange}
+            help={`*Fill in info for step ${stepNum + 1}.*`}
+            index={stepNum} type="text" componentClass="textarea" value={this.state.guideSteps[stepNum]} 
+            placeholder={`My Step Text`} onChange={this.handleChange} key={stepNum}
           />
           <br/>
+          <FieldInputGroup
+            id={`gif${stepNum + 1}`}
+            label={`Gif ${stepNum + 1}:`}
+            help={`*Upload your gif for step ${stepNum + 1}.*`}
+            index={stepNum} type="file" value={this.state.guideGifs[stepNum]} 
+            placeholder={`My Step Text`} onChange={this.handleChange} key={stepNum + numSteps}
+          />
         </div>
       );
     }

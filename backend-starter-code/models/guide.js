@@ -1,13 +1,13 @@
 
 module.exports = (sequelize, DataTypes) => {
 	const Guide = sequelize.define('Guide', {
-		guide_ID: {
+		guideID: {
 			type: DataTypes.UUID,
 			primaryKey: true,
 			defaultValue: DataTypes.UUIDV4,
       		allowNull: false
 		},
-		cover_Image_Location: DataTypes.STRING,
+		coverImageLocation: DataTypes.STRING,
 		title: DataTypes.STRING('80'),
 		subtitle: DataTypes.STRING('120'),
 		summary: DataTypes.STRING,

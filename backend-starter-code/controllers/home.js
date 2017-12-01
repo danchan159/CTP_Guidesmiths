@@ -4,6 +4,7 @@ const passport = require('../middlewares/authentication');
 const fs = require('fs');
 const multer  = require('multer');
 const router = express.Router();
+const bodyParser = require('body-parser');
 
 let path = '../backend-starter-code/gifs/';
 let upload = multer({dest: path})
@@ -32,6 +33,13 @@ router.get('/guide/', (req, res) => {
   })
 })
 
+router.get('/guides', (req, res) => {
+  models.Guide.findAll()
+  .then(guides => {
+    res.json(guides);
+  })
+})
+
 router.get('/comment', (req, res) => {
   models.Comments.findAll({
     where: {
@@ -48,44 +56,11 @@ router.post('/sign-up', (req,res) => {
     firstName: req.body.firstName,
     lastName: req.body.lastName,
     email: req.body.email,
-    password_hash: req.body.password,
+    passwordHash: req.body.password,
   })
+
+  res.status(200).json("Done");
 })
-
-//START OF TEST GIF POSTS
-router.post('/guide-form/gif', upload.single('photo'), (req, res) => {
-  let new_directory = path+'newFolder/';
-  if (!fs.existsSync(new_directory)){
-    fs.mkdirSync(new_directory);
-  }
-
-  fs.rename(path + req.file.filename, new_directory + req.file.filename, err => {
-    if(err) throw err;
-    console.log('Move complete!');
-  })
-  res.json(req.file);
-})
-
-router.post('/guide-form/gifs', upload.array('gifs', 5), (req, res) => {
-  let count = 1;
-  let newFileName = null;
-  let new_directory = path+'newFolders/';
-  if (!fs.existsSync(new_directory)){
-    fs.mkdirSync(new_directory);
-  }
-
-  for (let gif of req.files){
-    newFileName = "Step" + count;
-    fs.rename(path + gif.filename, new_directory + newFileName, err => {
-      if(err) throw err;
-      console.log('Move complete!');
-    })
-    count++;
-  }
-
-  res.json(req.files);
-})
-//END OF TEST GIF POSTS
 
 router.post('/guide-form/post', upload.array('gifs', 5), (req,res) => {
   let count = 1;
@@ -109,7 +84,7 @@ router.post('/guide-form/post', upload.array('gifs', 5), (req,res) => {
   }, {
     include: [ models.Steps, models.Categories]
   }).then(guide => {
-    let new_directory = path + guide.guide_ID + '/';
+    let new_directory = path + guide.guideID + '/';
     if (!fs.existsSync(new_directory)){
       fs.mkdirSync(new_directory);
     }
@@ -125,13 +100,13 @@ router.post('/guide-form/post', upload.array('gifs', 5), (req,res) => {
 
     models.Steps.findAll({
       where: {
-        GuideGuideID: guide.guide_ID
+        GuideGuideID: guide.guideID
       }
     }).then(steps =>{
       count = 1;
       for (let step of steps){        
         newFileName = "Step" + count;
-        step.gif_location = new_directory + newFileName;
+        step.gifLocation = new_directory + newFileName;
         step.save();
         count++;
       }
@@ -147,11 +122,9 @@ router.post('/comment', (req, res) => {
   })
 })
 
-router.post('/login', (req, res) => {
-  passport.authenticate('local')(req, res);
-})
-
-
+router.post('/login', passport.authenticate('local'), (req, res) => {
+  console.log("hello")
+});
 
 router.get('/', (req, res) => {
   res.json({
