@@ -60,30 +60,29 @@ class GuideFormPage extends Component {
   }
 
   handleSubmit(event) {
+    let data = new FormData();
+    // this.state.guideSteps.foreach(step => {
+    //   data.append('user')
+    // });
+    data.append('gifs', this.state.guideSteps.map(step => step.gif))
+    data.append('userID', this.props.user.userID)
+    data.append('title', this.state.guideTitle)
+    data.append('subtitle', this.state.guideSubtitle)
+    data.append('summary', this.state.guideSummary)
+    data.append('Step1', this.state.guideSteps[0].content)
+    data.append('Step1Title', this.state.guideSteps[0].title)
+    data.append('Step2', this.state.guideSteps[1].content)
+    data.append('Step3', this.state.guideSteps[2].content)
+    data.append('Step3Title', this.state.guideSteps[2].title)
+    data.append('Step4', this.state.guideSteps[3].content)
+    data.append('Step4Title', this.state.guideSteps[3].title)
+    data.append('Step5', this.state.guideSteps[4].content)
+    data.append('Step5Title', this.state.guideSteps[4].title)
+    data.append('CatName', "this.state.Categories")
+    
     fetch('/api/guide-form/post', {
       method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        userID: this.props.user.userID,
-        title: this.state.guideTitle,
-        subtitle: this.state.guideSubtitle,
-        summary: this.state.guideSummary,
-        Step1: this.state.guideSteps[0].content,
-        Step1Title: this.state.guideSteps[0].title,
-        Step2: this.state.guideSteps[1].content,
-        Step2Title: this.state.guideSteps[1].title,
-        Step3: this.state.guideSteps[2].content,
-        Step3Title: this.state.guideSteps[2].title,
-        Step4: this.state.guideSteps[3].content,
-        Step4Title: this.state.guideSteps[3].title,
-        Step5: this.state.guideSteps[4].content,
-        Step5Title: this.state.guideSteps[4].title,
-        CatName: "this.state.Categories",
-        files: this.state.guideSteps.map(step => step.gif)
-      }),
+      body: data
     })
     .then(res => {
       console.log(res);
@@ -91,6 +90,38 @@ class GuideFormPage extends Component {
     })
     .then(json => console.log(json))
     .catch(err => console.log(err));
+
+    // fetch('/api/guide-form/post', {
+    //   method: 'POST',
+    //   headers: {
+    //     'Accept': 'application/json',
+    //     'Content-Type': 'application/json'
+    //   },
+    //   body: JSON.stringify({
+    //     userID: this.props.user.userID,
+    //     title: this.state.guideTitle,
+    //     subtitle: this.state.guideSubtitle,
+    //     summary: this.state.guideSummary,
+    //     Step1: this.state.guideSteps[0].content,
+    //     Step1Title: this.state.guideSteps[0].title,
+    //     Step2: this.state.guideSteps[1].content,
+    //     Step2Title: this.state.guideSteps[1].title,
+    //     Step3: this.state.guideSteps[2].content,
+    //     Step3Title: this.state.guideSteps[2].title,
+    //     Step4: this.state.guideSteps[3].content,
+    //     Step4Title: this.state.guideSteps[3].title,
+    //     Step5: this.state.guideSteps[4].content,
+    //     Step5Title: this.state.guideSteps[4].title,
+    //     CatName: "this.state.Categories",
+    //     files: this.state.guideSteps.map(step => step.gif)
+    //   }),
+    // })
+    // .then(res => {
+    //   console.log(res);
+    //   return res.json();
+    // })
+    // .then(json => console.log(json))
+    // .catch(err => console.log(err));
   }
 
   handleChange(event) {
