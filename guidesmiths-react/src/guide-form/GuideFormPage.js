@@ -21,8 +21,8 @@ class GuideFormPage extends Component {
       guideTitle: "",
       guideSubtitle: "",
       guideSummary: "",
-      guideSteps: [],
-      guideGifs: []
+      guideSteps: [{step: 1}, {step: 2}, {step: 3}, {step: 4}, {step: 5}],
+      guideCategories: []
     }
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -60,29 +60,29 @@ class GuideFormPage extends Component {
   }
 
   handleSubmit(event) {
+    let data = new FormData();
+    // this.state.guideSteps.foreach(step => {
+    //   data.append('user')
+    // });
+    data.append('gifs', this.state.guideSteps.map(step => step.gif))
+    data.append('userID', this.props.user.userID)
+    data.append('title', this.state.guideTitle)
+    data.append('subtitle', this.state.guideSubtitle)
+    data.append('summary', this.state.guideSummary)
+    data.append('Step1', this.state.guideSteps[0].content)
+    data.append('Step1Title', this.state.guideSteps[0].title)
+    data.append('Step2', this.state.guideSteps[1].content)
+    data.append('Step3', this.state.guideSteps[2].content)
+    data.append('Step3Title', this.state.guideSteps[2].title)
+    data.append('Step4', this.state.guideSteps[3].content)
+    data.append('Step4Title', this.state.guideSteps[3].title)
+    data.append('Step5', this.state.guideSteps[4].content)
+    data.append('Step5Title', this.state.guideSteps[4].title)
+    data.append('CatName', "this.state.Categories")
+    
     fetch('/api/guide-form/post', {
       method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        userID: this.props.user.userID,
-        title: this.state.guideTitle,
-        subtitle: this.state.guideSubtitle,
-        summary: this.state.guideSummary,
-        Step1: this.state.guideSteps[0],
-        Step1Title: "Step1",
-        Step2: this.state.guideSteps[1],
-        Step2Title: "Step2",
-        Step3: this.state.guideSteps[2],
-        Step3Title: "Step3",
-        Step4: this.state.guideSteps[3],
-        Step4Title: "Step4",
-        Step5: this.state.guideSteps[4],
-        Step5Title: "Step5",
-        CatName: "this.state.Categories"
-      })
+      body: data
     })
     .then(res => {
       console.log(res);
@@ -90,6 +90,38 @@ class GuideFormPage extends Component {
     })
     .then(json => console.log(json))
     .catch(err => console.log(err));
+
+    // fetch('/api/guide-form/post', {
+    //   method: 'POST',
+    //   headers: {
+    //     'Accept': 'application/json',
+    //     'Content-Type': 'application/json'
+    //   },
+    //   body: JSON.stringify({
+    //     userID: this.props.user.userID,
+    //     title: this.state.guideTitle,
+    //     subtitle: this.state.guideSubtitle,
+    //     summary: this.state.guideSummary,
+    //     Step1: this.state.guideSteps[0].content,
+    //     Step1Title: this.state.guideSteps[0].title,
+    //     Step2: this.state.guideSteps[1].content,
+    //     Step2Title: this.state.guideSteps[1].title,
+    //     Step3: this.state.guideSteps[2].content,
+    //     Step3Title: this.state.guideSteps[2].title,
+    //     Step4: this.state.guideSteps[3].content,
+    //     Step4Title: this.state.guideSteps[3].title,
+    //     Step5: this.state.guideSteps[4].content,
+    //     Step5Title: this.state.guideSteps[4].title,
+    //     CatName: "this.state.Categories",
+    //     files: this.state.guideSteps.map(step => step.gif)
+    //   }),
+    // })
+    // .then(res => {
+    //   console.log(res);
+    //   return res.json();
+    // })
+    // .then(json => console.log(json))
+    // .catch(err => console.log(err));
   }
 
   handleChange(event) {
@@ -97,6 +129,7 @@ class GuideFormPage extends Component {
       this.setState({
         guideTitle: event.target.value
       });
+      console.log(this.state.guideSteps.map(step => step.gif));
     }
     else if(event.target.id === "guideSubtitle") {
       this.setState({
@@ -108,42 +141,59 @@ class GuideFormPage extends Component {
         guideSummary: event.target.value
       });
     }
-    else if(event.target.id.startsWith("gif")) {
-      let newGuideGifs = this.state.guideGifs;
-      newGuideGifs[event.target.index] = event.target.value;
+    else if(event.target.id.endsWith("Gif")) {
+      let newGifGuideSteps = this.state.guideSteps;
+      newGifGuideSteps[event.target.getAttribute("index")].gif = event.target.value;
       this.setState({
-        guideGifs: newGuideGifs
+        guideSteps: newGifGuideSteps
       });
     }
-    else {
-      let newGuideSteps = this.state.guideSteps;
-      newGuideSteps[event.target.index] = event.target.value;
+    else if(event.target.id.endsWith("Content")) {
+      let newContentGuideSteps = this.state.guideSteps;
+      newContentGuideSteps[event.target.getAttribute("index")].content = event.target.value;
       this.setState({
-        guideSteps: newGuideSteps
+        guideSteps: newContentGuideSteps
+      });
+    }
+    else { // endsWith("Title")
+      let newTitleGuideSteps = this.state.guideSteps;
+      newTitleGuideSteps[event.target.getAttribute("index")].title = event.target.value;
+      this.setState({
+        guideSteps: newTitleGuideSteps
       });
     }
   }
 
   generateSteps(numSteps) {
     let steps = [];
+    let keyCounter = 0;
     for(let stepNum = 0; stepNum < numSteps; stepNum++) {
       steps.push(
         <div>
           <FieldInputGroup
-            id={`step${stepNum + 1}`}
-            label={`Step ${stepNum + 1}:`}
-            help={`*Fill in info for step ${stepNum + 1}.*`}
-            index={stepNum} type="text" componentClass="textarea" value={this.state.guideSteps[stepNum]} 
-            placeholder={`My Step Text`} onChange={this.handleChange} key={stepNum}
+            id={`step${stepNum + 1}Title`}
+            label={`Step ${stepNum + 1}: Title`}
+            help={`*Choose a title for ${stepNum + 1}.*`}
+            index={stepNum} type="text" maxLength="60" 
+            placeholder={`My Step Text`} onChange={this.handleChange} key={keyCounter++}
           />
           <br/>
           <FieldInputGroup
-            id={`gif${stepNum + 1}`}
+            id={`step${stepNum + 1}Gif`}
             label={`Gif ${stepNum + 1}:`}
             help={`*Upload your gif for step ${stepNum + 1}.*`}
-            index={stepNum} type="file" value={this.state.guideGifs[stepNum]} 
-            placeholder={`My Step Text`} onChange={this.handleChange} key={stepNum + numSteps}
+            index={stepNum} type="file"
+            placeholder={`My Step Text`} onChange={this.handleChange} key={keyCounter++}
           />
+          <br/>
+          <FieldInputGroup
+            id={`step${stepNum + 1}Content`}
+            label={`Step ${stepNum + 1}: Content`}
+            help={`*Fill in the content for step ${stepNum + 1}.*`}
+            index={stepNum} type="text" componentClass="textarea" maxLength="200"
+            placeholder={`My Step Text`} onChange={this.handleChange} key={keyCounter++}
+          />
+          <br/>
         </div>
       );
     }

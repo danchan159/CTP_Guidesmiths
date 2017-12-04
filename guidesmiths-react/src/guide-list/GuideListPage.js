@@ -38,6 +38,7 @@ class GuideListPage extends Component {
     )
   }
 
+ 
   /*
   render() {
     return(
@@ -80,6 +81,8 @@ class GuideListPage extends Component {
       </div>
     );
   }*/
+=======
+
 }
 
 export default GuideListPage;
