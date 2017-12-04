@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Jumbotron } from 'react-bootstrap';
-import GuideContent from '../guide-content/GuideContent.js';
+import GuideStep from '../guide-step/GuideStep.js';
 
 class GuideContentPage extends Component {
   constructor(props) {
@@ -13,26 +13,29 @@ class GuideContentPage extends Component {
   }
 
   componentDidMount() {
-    fetch('/api/guide/guide?id={this.props.guide_id}')
-      .then(res => res.json())
-      .then(data => data.data)
-      .then(guide => this.setState({guides: guide}))
+    fetch('/api/guide/guide?id={this.props.guide.guideID}')
+      .then(data => this.setState({steps: data.steps, guide: data.guide}))
       .catch(console.error)
   }
 
   render() {
-    console.log("guides = ", this.state.guides)
-    const guide = this.state.guide.map(guide => {
-      return <GuideContent
+    console.log("guide = ", this.state.guide)
+    console.log("steps = ", this.state.steps)
+    const guide = this.state.guide
+    const steps = this.state.steps.map(step => {
+      return <GuideStep
         key={`guide${guide.guide_id}`}
-        guide={guide} />
+        step= {step} />
     })
 
     return (
       <Jumbotron>
         <h1> Your Requested Guide </h1>
-        <div className="container">
-          { guide }
+        <div className="guide">
+          {guide.title}
+        </div>
+        <div className="steps">
+          { steps }
         </div>
       </Jumbotron>
       
