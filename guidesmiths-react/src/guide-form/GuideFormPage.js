@@ -22,7 +22,8 @@ class GuideFormPage extends Component {
       guideSubtitle: "",
       guideSummary: "",
       guideSteps: [{step: 1}, {step: 2}, {step: 3}, {step: 4}, {step: 5}],
-      guideCategories: []
+      guideCategories: [],
+      uploadedGifIndex: -1
     }
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -64,7 +65,7 @@ class GuideFormPage extends Component {
     // this.state.guideSteps.foreach(step => {
     //   data.append('user')
     // });
-    data.append('gifs', this.state.guideSteps.map(step => step.gif))
+    data.append('files', this.state.guideSteps.map(step => step.gif))
     data.append('userID', this.props.user.userID)
     data.append('title', this.state.guideTitle)
     data.append('subtitle', this.state.guideSubtitle)
@@ -125,6 +126,7 @@ class GuideFormPage extends Component {
   }
 
   handleChange(event) {
+    event.preventDefault();
     if(event.target.id === "guideTitle") {
       this.setState({
         guideTitle: event.target.value
@@ -142,11 +144,46 @@ class GuideFormPage extends Component {
       });
     }
     else if(event.target.id.endsWith("Gif")) {
-      let newGifGuideSteps = this.state.guideSteps;
-      newGifGuideSteps[event.target.getAttribute("index")].gif = event.target.value;
+      
+      let reader = new FileReader();
+      let file = event.target.files[0];
+      
       this.setState({
-        guideSteps: newGifGuideSteps
+        uploadedGifIndex: event.target.getAttribute("index")
       });
+      
+      reader.onloadend = () => {
+        let newGifGuideSteps = this.state.guideSteps;
+        let guideIndex = this.state.uploadedGifIndex;
+        newGifGuideSteps[guideIndex].gif = {
+          file: file
+        }
+        this.setState({
+          guideSteps: newGifGuideSteps,
+        });
+        console.log(this.state);
+        //console.log(reader.result);
+      }
+
+      reader.readAsDataURL(file);
+      // let myPromise = new Promise((resolve, reject) => {
+      // let counter = 0;
+      //   setInterval(() => {
+      //     if(reader.readyState === 2){
+      //       resolve(this.state.uploadedGifTempHolder);
+      //     }
+      //     counter++;
+      //     if(counter )
+      //   }, 100);
+      // });
+      // myPromise.then(message => console.log(message));
+      
+
+      // newGifGuideSteps[this.state.uploadedGifIndex].gif = reader.onloadend;
+      // this.setState({
+      //   guideSteps: newGifGuideSteps
+      // });
+      //console.log(reader.result);
     }
     else if(event.target.id.endsWith("Content")) {
       let newContentGuideSteps = this.state.guideSteps;

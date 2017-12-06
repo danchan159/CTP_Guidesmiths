@@ -70,6 +70,14 @@ class SignUpPage extends Component {
     })
     .then(json => console.log(json))
     .catch(err => console.log(err));
+
+    // let url = window.location.href;
+    // for(let i = 0; i < url.length; ++i) {
+    //   if(url.charAt(i) === '?') {
+    //     window.location.href = window.location.href.slice(0, i);
+    //     i = url.length;
+    //   }
+    // }
   }
 
 }
