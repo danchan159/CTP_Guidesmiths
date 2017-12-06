@@ -90,7 +90,7 @@ router.post('/guide-form/post', upload.array('gifs', 5), (req,res) => {
     }
 
     for (let gif of req.files){
-      newFileName = "Step" + count;
+      newFileName = "Step" + count + '.gif';
       fs.rename(path + gif.filename, new_directory + newFileName, err => {
         if(err) throw err;
         console.log('Move complete!');
@@ -105,13 +105,14 @@ router.post('/guide-form/post', upload.array('gifs', 5), (req,res) => {
     }).then(steps =>{
       count = 1;
       for (let step of steps){        
-        newFileName = "Step" + count;
+        newFileName = "Step" + count+ '.gif';
         step.gifLocation = new_directory + newFileName;
         step.save();
         count++;
       }
     })
   })
+  res.json("Good");
 })
 
 router.post('/comment', (req, res) => {
