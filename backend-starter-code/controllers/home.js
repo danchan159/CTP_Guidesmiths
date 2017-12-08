@@ -127,7 +127,7 @@ router.post('/comment', (req, res) => {
 })
 
 router.post('/login', passport.authenticate('local'), (req, res) => {
-  res.json(req.user)
+  res.json([req.user.id, req.user.firstName, req.user.lastName])
 });
 
 /*

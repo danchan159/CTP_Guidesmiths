@@ -36,17 +36,18 @@ class LoginPage extends Component {
     );
   }
 
-  handleSubmit() {
+  handleSubmit(event) {
+    event.preventDefault();
     fetch('/api/login', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       },
-      body: {
+      body: JSON.stringify({
         email: this.state.email,
         password: this.state.password
-      }
+      })
     })
     .then(res => {
       console.log(res);
@@ -58,17 +59,19 @@ class LoginPage extends Component {
 
   handleChange(event) {
     console.log(event.target.value)
-    if(event.target.id = "emailField") {
+    if(event.target.id === "emailField") {
       this.setState({
         email: event.target.value,
         password: this.state.password
       });
+      console.log(this.state);
     }
     else {  // event.target.id = "passwordField"
       this.setState({
         email: this.state.email,
         password: event.target.value
       });
+      console.log(this.state);
     }
   }
 
