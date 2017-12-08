@@ -89,12 +89,6 @@ router.post('/guide-form/post', upload.array('gifs', 5), (req,res) => {
     if (!fs.existsSync(new_directory)){
       fs.mkdirSync(new_directory);
     }
-    
-    console.log("REQ.BODY");
-    console.log(req.body);
-    console.log("\n");
-    console.log("REQ.FILES");
-    console.log(req.files);
 
     for (let gif of req.files){
       console.log(gif)
