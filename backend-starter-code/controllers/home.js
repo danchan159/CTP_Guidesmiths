@@ -6,7 +6,8 @@ const multer  = require('multer');
 const router = express.Router();
 const bodyParser = require('body-parser');
 
-let path = '../backend-starter-code/gifs/';
+let path = __dirname;
+path = path.replace('controllers', 'gifs/')
 let upload = multer({dest: path})
 
 router.get('/whoami', (req, res) => {
@@ -88,9 +89,17 @@ router.post('/guide-form/post', upload.array('gifs', 5), (req,res) => {
     if (!fs.existsSync(new_directory)){
       fs.mkdirSync(new_directory);
     }
+    
+    console.log("REQ.BODY");
+    console.log(req.body);
+    console.log("\n");
+    console.log("REQ.FILES");
+    console.log(req.files);
 
     for (let gif of req.files){
-      newFileName = "Step" + count;
+      console.log(gif)
+      newFileName = "Step" + count + '.gif';
+      console.log(newFileName);
       fs.rename(path + gif.filename, new_directory + newFileName, err => {
         if(err) throw err;
         console.log('Move complete!');
@@ -105,13 +114,14 @@ router.post('/guide-form/post', upload.array('gifs', 5), (req,res) => {
     }).then(steps =>{
       count = 1;
       for (let step of steps){        
-        newFileName = "Step" + count;
+        newFileName = "Step" + count+ '.gif';
         step.gifLocation = new_directory + newFileName;
         step.save();
         count++;
       }
     })
   })
+  res.json("Good");
 })
 
 router.post('/comment', (req, res) => {
