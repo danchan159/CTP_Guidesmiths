@@ -13,7 +13,10 @@ class GuideContentPage extends Component {
   }
 
   componentDidMount() {
-    fetch('/api/guide/guide?id={this.props.guide.guideID}')
+    fetch(`/api/guide/guide?id=${this.props.guide.guideID}`)
+      .then(res => {if(res.ok) {
+        return res.json();}
+        throw new Error('Network response was not ok.');})
       .then(data => this.setState({steps: data.steps, guide: data.guide}))
       .catch(console.error)
   }

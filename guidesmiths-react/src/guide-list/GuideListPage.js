@@ -14,7 +14,9 @@ class GuideListPage extends Component {
 
   componentDidMount() {
     fetch('/api/guides')
-      .then(res => {res.json();})
+      .then(res => {if(res.ok) {
+        return res.json();}
+        throw new Error('Network response was not ok.');})
       .then(data => {this.setState({guides: data})})
       .catch(console.error)
   }
@@ -81,7 +83,7 @@ class GuideListPage extends Component {
       </div>
     );
   }*/
-//=======
+
 
 }
 
