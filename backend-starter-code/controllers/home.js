@@ -6,7 +6,8 @@ const multer  = require('multer');
 const router = express.Router();
 const bodyParser = require('body-parser');
 
-let path = '../backend-starter-code/gifs/';
+let path = __dirname;
+path = path.replace('controllers', 'gifs/')
 let upload = multer({dest: path})
 
 router.get('/whoami', (req, res) => {
@@ -89,7 +90,10 @@ router.post('/guide-form/post', upload.array('gifs', 5), (req,res) => {
       fs.mkdirSync(new_directory);
     }
 
+    console.log(req.files);
+
     for (let gif of req.files){
+      console.log(gif);
       newFileName = "Step" + count + '.gif';
       fs.rename(path + gif.filename, new_directory + newFileName, err => {
         if(err) throw err;
