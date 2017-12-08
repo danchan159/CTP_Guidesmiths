@@ -6,9 +6,10 @@ const multer  = require('multer');
 const router = express.Router();
 const bodyParser = require('body-parser');
 
-let path = __dirname;
-path = path.replace('controllers', 'gifs/')
+let path = './gifs'
 let upload = multer({dest: path})
+
+// let upload = multer({dest: './gifs'})
 
 router.get('/whoami', (req, res) => {
   res.json(req.user);
@@ -67,6 +68,8 @@ router.post('/guide-form/post', upload.array('gifs', 5), (req,res) => {
   let count = 1;
   let newFileName = null;
 
+  // req.files[0].path 
+
   models.Guide.create({
     UserId: "1",
     title: req.body.title,
@@ -85,16 +88,15 @@ router.post('/guide-form/post', upload.array('gifs', 5), (req,res) => {
   }, {
     include: [ models.Steps, models.Categories]
   }).then(guide => {
-    let new_directory = path + guide.guideID + '/';
+    let new_directory = path + '/' + guide.guideID + '/';
     if (!fs.existsSync(new_directory)){
       fs.mkdirSync(new_directory);
     }
 
     for (let gif of req.files){
-      console.log(gif)
       newFileName = "Step" + count + '.gif';
       console.log(newFileName);
-      fs.rename(path + gif.filename, new_directory + newFileName, err => {
+      fs.rename(path + '/' + gif.filename, new_directory + newFileName, err => {
         if(err) throw err;
         console.log('Move complete!');
       })
