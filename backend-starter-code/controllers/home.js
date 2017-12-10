@@ -70,6 +70,7 @@ router.post('/guide-form/post', upload.array('gifs', 5), (req,res) => {
   let newFileName = null;
 
   // req.files[0].path 
+  console.log(req.user);
 
   models.Guide.create({
     UserUserName: "rcole831",
@@ -123,14 +124,14 @@ router.post('/guide-form/post', upload.array('gifs', 5), (req,res) => {
 
 router.post('/comment', (req, res) => {
   models.Comments.create({
-    UserId: req.user.id,
+    UserId: req.user.userName,
     GuideGuideID: req.guide.id,
     content: req.body.commentBox,
   })
 })
 
 router.post('/login', passport.authenticate('local'), (req, res) => {
-  res.json([req.user.id, req.user.firstName, req.user.lastName])
+  res.json(req.user.userName)
 });
 
 /*

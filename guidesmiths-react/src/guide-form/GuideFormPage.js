@@ -70,7 +70,7 @@ class GuideFormPage extends Component {
     // this.state.guideSteps.foreach(step => {
     //   data.append('user')
     // });
-    data.append('userID', this.props.user.userID)
+    data.append('userName', this.props.user.userName)
     // data.append('title', this.state.guideTitle)
     // data.append('subtitle', this.state.guideSubtitle)
     // data.append('summary', this.state.guideSummary)
