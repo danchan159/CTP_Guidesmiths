@@ -34,7 +34,7 @@ passport.use(new LocalStrategy({
 );
 
 passport.serializeUser((user, done) => {
-  done(null, user.id);
+  done(null, user.userName);
 });
 
 passport.deserializeUser((id, done) => {

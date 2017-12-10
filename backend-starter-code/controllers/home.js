@@ -58,6 +58,7 @@ router.post('/sign-up', (req,res) => {
     firstName: req.body.firstName,
     lastName: req.body.lastName,
     email: req.body.email,
+    userName: req.body.userName,
     passwordHash: req.body.password,
   })
 
@@ -71,7 +72,7 @@ router.post('/guide-form/post', upload.array('gifs', 5), (req,res) => {
   // req.files[0].path 
 
   models.Guide.create({
-    UserId: "1",
+    UserUserName: "rcole831",
     title: req.body.title,
     subtitle: req.body.subtitle,
     summary: req.body.summary,
