@@ -20,14 +20,15 @@ router.get('/logout', (req, res) => {
 })
 
 router.get('/guide/', (req, res) => {
-  let response = null;
   models.Steps.findAll({
     where: {
       GuideGuideID: req.query.id
-    }
+    },
+    order: [
+      ['createdAt','ASC']
+    ]
   })
   .then(steps => {
-    response = steps;
     models.Guide.findById(req.query.id)
     .then(guide => {
       res.json({steps, guide});
