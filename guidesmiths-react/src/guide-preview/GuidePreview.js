@@ -12,8 +12,8 @@ const GuidePreview = (props) => {
         <Panel>
           <LinkContainer to={`/guide/${guide.guideID}`}><h2>{guide.title}</h2></LinkContainer>
           <Route path="`/guide/guide?={guide.guideID}`" component={GuideContentPage}/>
-          <p>{`By ${guide.UserId}`}</p>
-          <Image src={guide.cover_Image_Location}/>
+          <p>{`By ${guide.UserUserName}`}</p>
+          <Image src={`http://localhost:8001/${guide.coverImageLocation}`} responsive/>
             {/*<div className="steps">
               <ul>
                 {

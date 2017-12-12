@@ -6,9 +6,10 @@ const multer  = require('multer');
 const router = express.Router();
 const bodyParser = require('body-parser');
 
-let path = __dirname;
-path = path.replace('controllers', 'gifs/')
+let path = './gifs'
 let upload = multer({dest: path})
+
+// let upload = multer({dest: './gifs'})
 
 router.get('/whoami', (req, res) => {
   res.json(req.user);
@@ -19,14 +20,15 @@ router.get('/logout', (req, res) => {
 })
 
 router.get('/guide/', (req, res) => {
-  let response = null;
   models.Steps.findAll({
     where: {
       GuideGuideID: req.query.id
-    }
+    },
+    order: [
+      ['createdAt','ASC']
+    ]
   })
   .then(steps => {
-    response = steps;
     models.Guide.findById(req.query.id)
     .then(guide => {
       res.json({steps, guide});
@@ -57,6 +59,7 @@ router.post('/sign-up', (req,res) => {
     firstName: req.body.firstName,
     lastName: req.body.lastName,
     email: req.body.email,
+    userName: req.body.userName,
     passwordHash: req.body.password,
   })
 
@@ -67,8 +70,11 @@ router.post('/guide-form/post', upload.array('gifs', 5), (req,res) => {
   let count = 1;
   let newFileName = null;
 
+  // req.files[0].path 
+  console.log(req.user);
+
   models.Guide.create({
-    UserId: "1",
+    UserUserName: "rcole831",
     title: req.body.title,
     subtitle: req.body.subtitle,
     summary: req.body.summary,
@@ -85,22 +91,15 @@ router.post('/guide-form/post', upload.array('gifs', 5), (req,res) => {
   }, {
     include: [ models.Steps, models.Categories]
   }).then(guide => {
-    let new_directory = path + guide.guideID + '/';
+    let new_directory = path + '/' + guide.guideID + '/';
     if (!fs.existsSync(new_directory)){
       fs.mkdirSync(new_directory);
     }
-    
-    console.log("REQ.BODY");
-    console.log(req.body);
-    console.log("\n");
-    console.log("REQ.FILES");
-    console.log(req.files);
 
     for (let gif of req.files){
-      console.log(gif)
       newFileName = "Step" + count + '.gif';
       console.log(newFileName);
-      fs.rename(path + gif.filename, new_directory + newFileName, err => {
+      fs.rename(path + '/' + gif.filename, new_directory + newFileName, err => {
         if(err) throw err;
         console.log('Move complete!');
       })
@@ -126,16 +125,17 @@ router.post('/guide-form/post', upload.array('gifs', 5), (req,res) => {
 
 router.post('/comment', (req, res) => {
   models.Comments.create({
-    UserId: req.user.id,
+    UserId: req.user.userName,
     GuideGuideID: req.guide.id,
     content: req.body.commentBox,
   })
 })
 
 router.post('/login', passport.authenticate('local'), (req, res) => {
-  res.json(req.user)
+  res.json(req.user.userName)
 });
 
+/*
 router.get('/', (req, res) => {
   res.json({
     msg: "Successful GET to '/' route"
@@ -161,7 +161,6 @@ router.delete('/:id', (req, res) => {
     id: req.params.id
   });
 });
-
-
+*/
 
 module.exports = router;

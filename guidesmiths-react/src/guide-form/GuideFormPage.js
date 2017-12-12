@@ -39,6 +39,7 @@ class GuideFormPage extends Component {
           label="Guide Title:"
           help="*Pick a good title for your guide.*"
           type="text" value={this.state.guideTitle} placeholder="My Guide Title" onChange={this.handleChange}
+          name = "title"
         />
         <br/>
         <FieldInputGroup
@@ -46,6 +47,7 @@ class GuideFormPage extends Component {
           label="Guide Subtitle:"
           help="*This lets you expand on your title just a bit.*"
           type="text" value={this.state.guideSubtitle} placeholder="My Guide Subtitle" onChange={this.handleChange}
+          name = "subtitle"
         />
         <br/>
         {this.generateSteps(5)}
@@ -54,6 +56,7 @@ class GuideFormPage extends Component {
           label="Guide Summary:"
           help="*Wrap up your guide with a short summary.*"
           type="text" componentClass="textarea" value={this.state.guideSummary} placeholder="My Guide Summary" onChange={this.handleChange}
+          name = "summary"
         />
         <Button type="submit">Submit</Button>
       </form>
@@ -61,7 +64,26 @@ class GuideFormPage extends Component {
   }
 
   handleSubmit(event) {
+    event.preventDefault();
     let data = new FormData(document.getElementById("myForm"));
+
+    // this.state.guideSteps.foreach(step => {
+    //   data.append('user')
+    // });
+    data.append('userName', this.props.user.userName)
+    // data.append('title', this.state.guideTitle)
+    // data.append('subtitle', this.state.guideSubtitle)
+    // data.append('summary', this.state.guideSummary)
+    // data.append('Step1', this.state.guideSteps[0].content)
+    // data.append('Step1Title', this.state.guideSteps[0].title)
+    // data.append('Step2', this.state.guideSteps[1].content)
+    // data.append('Step3', this.state.guideSteps[2].content)
+    // data.append('Step3Title', this.state.guideSteps[2].title)
+    // data.append('Step4', this.state.guideSteps[3].content)
+    // data.append('Step4Title', this.state.guideSteps[3].title)
+    // data.append('Step5', this.state.guideSteps[4].content)
+    // data.append('Step5Title', this.state.guideSteps[4].title)
+    data.append('CatName', "this.state.Categories")
 
     fetch('/api/guide-form/post', {
       method: 'POST',
@@ -147,6 +169,7 @@ class GuideFormPage extends Component {
             help={`*Choose a title for ${stepNum + 1}.*`}
             index={stepNum} type="text" maxLength="60" 
             placeholder={`My Step Text`} onChange={this.handleChange} key={keyCounter++}
+            name = {`Step${stepNum + 1}Title`}
           />
           <br/>
           <FieldInputGroup
@@ -164,6 +187,7 @@ class GuideFormPage extends Component {
             help={`*Fill in the content for step ${stepNum + 1}.*`}
             index={stepNum} type="text" componentClass="textarea" maxLength="200"
             placeholder={`My Step Text`} onChange={this.handleChange} key={keyCounter++}
+            name = {`Step${stepNum + 1}`}
           />
           <br/>
         </div>
