@@ -3,29 +3,12 @@ import { Jumbotron } from 'react-bootstrap';
 import GuideStep from '../guide-step/GuideStep.js';
 
 class GuideContentPage extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      steps: [],
-      guide: []
-    }
-    this.getAllGuides = this.getAllGuides.bind(this)
-  }
-
-  componentDidMount() {
-    fetch(`/api/guide/guide?id=${this.props.guide.guideID}`)
-      .then(res => {if(res.ok) {
-        return res.json();}
-        throw new Error('Network response was not ok.');})
-      .then(data => this.setState({steps: data.steps, guide: data.guide}))
-      .catch(console.error)
-  }
 
   render() {
-    console.log("guide = ", this.state.guide)
-    console.log("steps = ", this.state.steps)
-    const guide = this.state.guide
-    const steps = this.state.steps.map(step => {
+    console.log("GuideContentPage guide = ", this.props.guide)
+    console.log("GuideContentPage steps = ", this.props.steps)
+    const guide = this.props.guide
+    const stepsOfGuide = this.props.steps.map(step => {
       return <GuideStep
         key={`guide${guide.guide_id}`}
         step= {step} />
@@ -38,7 +21,7 @@ class GuideContentPage extends Component {
           {guide.title}
         </div>
         <div className="steps">
-          { steps }
+          { stepsOfGuide }
         </div>
       </Jumbotron>
       

@@ -1,19 +1,18 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { Panel, Image} from 'react-bootstrap';
-import GuideContentPage from '../guide-content-page/GuideContentPage.js';
 import { Route } from 'react-router-dom';
 import { LinkContainer } from 'react-router-bootstrap';
-
-const GuidePreview = (props) => {
-    const guide = props.guide
+import GuideContentPage from '../guide-content-page/GuideContentPage.js';
 
 
+class GuidePreview extends Component {
+
+  render(){
     return (
-        <Panel>
-          <LinkContainer to={`/guide/${guide.guideID}`}><h2>{guide.title}</h2></LinkContainer>
-          <Route path="`/guide/guide?={guide.guideID}`" component={GuideContentPage}/>
-          <p>{`By ${guide.UserUserName}`}</p>
-          <Image src={`http://localhost:8001/${guide.coverImageLocation}`} responsive/>
+        <Panel onClick={() => this.props.onClick(this.props.guide.guideID)}>
+          <h2>{this.props.guide.title}</h2>
+          <p>{`By ${this.props.guide.UserUserName}`}</p>
+          <Image src={`http://localhost:8001/${this.props.guide.coverImageLocation}`} responsive/>
             {/*<div className="steps">
               <ul>
                 {
@@ -29,6 +28,7 @@ const GuidePreview = (props) => {
             </div>*/}
         </Panel>
     )
+  }
 }
 
 export default GuidePreview;
