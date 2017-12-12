@@ -2,15 +2,36 @@ import React, { Component } from 'react';
 import { Jumbotron } from 'react-bootstrap';
 import './GuideListPage.css';
 import GuidePreview from '../guide-preview/GuidePreview.js';
+import GuideContentPage from '../guide-content-page/GuideContentPage.js';
 
 class GuideListPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      guides: []
+      guides: [],
+      steps: [],
+      guide: null,
+      hasBeenClicked: false
     }
+
+  this.handleClick = this.handleClick.bind(this)
   }
 
+  handleClick(guideID) {
+    console.log(guideID);
+    this.setState({hasBeenClicked: !this.state.hasBeenClicked});
+    fetch(`/api/guide/?id=${guideID}`)
+     .then(res => {if(res.ok) {
+        return res.json();}
+        throw new Error('Network response was not ok.');})
+      .then(data => this.setState({steps: data.steps, guide: data.guide}))
+            //data => console.log("data = ", data))
+      .then(console.log(this.state.hasBeenClicked, this.state.steps, this.state.guide))
+      .catch(console.error)
+  }
+
+  // maybe a solution, a lifecycle method of Component, to reset the render state on Preview click?
+  componentWillReceiveProps(){}
 
   componentDidMount() {
     fetch('/api/guides')
@@ -22,22 +43,41 @@ class GuideListPage extends Component {
   }
 
   render() {
-    console.log("guides = ", this.state.guides)
+    console.log("render guides = ", this.state.guides)
     const guides = this.state.guides.map(guide => {
       return <GuidePreview
         key={`guide${guide.guideID}`}
-        guide={guide} />
+        guide={guide} 
+        onClick={guideID => this.handleClick(guideID)}
+        //hasBeenClicked = {this.state.hasBeenClicked}
+        />
     })
 
-    return (
-     <Jumbotron>
-        <h1> All Guides </h1>
-        <div className="container">
-          <p></p>
-          { guides }
-        </div>
-    </Jumbotron>
-    )
+
+    if(this.hasBeenClicked) {
+      return (
+        <Jumbotron>
+          <h1> Requested Guide </h1>
+          <div className="container">
+           <GuideContentPage 
+              key={`guide${this.state.guide.guideID}`}
+              guide= {this.state.guide}
+              steps= {this.state.steps}
+            />
+          </div>
+        </Jumbotron>
+      )
+    } else {
+      return (
+       <Jumbotron>
+          <h1> All Guides </h1>
+          <div className="container">
+            <p></p>
+            { guides }
+          </div>
+      </Jumbotron>
+      )
+    } 
   }
 
  
