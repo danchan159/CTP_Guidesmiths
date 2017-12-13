@@ -25,7 +25,7 @@ class HomePage extends Component {
 		    		</Col>
 		     	 	<Col xs={12} md={4}>
 		     	 		<h2>Who Are You?</h2>
-		     	 		<ul style="list-style:none;" >
+		     	 		<ul>
 		      			<li> A Handy(wo)man </li>
 		      			<li> Tech-savvy Individual </li>
 		      			<li> Young/Old Scholar </li>
@@ -33,8 +33,8 @@ class HomePage extends Component {
 		     	 	</Col>
 		      		<Col xs={12} md={4}>
 		      			<h2>Our Competitors</h2>
-		      			<ul style="list-style:none;" >
-		      			<li font >WikiHow - ignores the content creators </li>
+		      			<ul >
+		      			<li>WikiHow - ignores the content creators </li>
 		      			<li>Youtube - watching how-to videos in 2017</li>
 		      			</ul>
 		      		</Col>
