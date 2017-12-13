@@ -1,0 +1,44 @@
+#guideTitleWrapper {
+	margin-top: 20px;
+}
+
+.stepInputGroup {
+	width: 70%;
+	text-align: left;
+	background-color: #ABC;
+	padding: 30px 30px;
+	margin: 20px auto;
+	border-radius: 5px;
+}
+
+.stepContent {
+	min-height: 95px;
+	width: 80%;
+	border-radius: 5px;
+}
+
+.stepContentWrapper {
+	background-color: rgb(232, 197, 160);
+	padding: 8px;
+	border-radius: 5px;
+}
+
+.stepGifWrapper {
+	background-color: rgb(232, 197, 160);
+	padding: 8px;
+	border-radius: 5px;
+}
+
+.stepTitleWrapper {
+	background-color: rgb(232, 197, 160);
+	padding: 8px;
+	border-radius: 5px;
+}
+
+.stepGif {
+}
+
+input[type="file"] {
+	border-radius: 5px;
+	width: 50%;
+}
