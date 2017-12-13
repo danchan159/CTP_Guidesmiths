@@ -25,7 +25,7 @@ class SignUpPage extends Component {
 
   render() {
     return(
-      this.state.signedUpSuccessfully ? <Redirect to="/guide-list" /> : 
+      this.state.signedUpSuccessfully ? <Redirect to="/login"/> : 
       <div className="form-group">
         <form action="POST" onSubmit={this.handleSubmit}>
           First Name:<input type="text" name="firstName" className="form-control" onChange={this.onFirstNameChange}/><br/>
