@@ -1,5 +1,5 @@
 import React , { Component } from 'react';
-import { Button, Panel, Image, ListGroup, ListGroupItem} from 'react-bootstrap';
+import { Panel, Image, ListGroup, ListGroupItem} from 'react-bootstrap';
 import { Route } from 'react-router-dom';
 import GuideContentPage from '../guide-content-page/GuideContentPage.js';
 
@@ -10,13 +10,9 @@ class GuidePreview extends Component{
     super(props)
     this.render = this.render.bind(this)
     this.state = {
-
     }
 
     console.log(this.props)
-  }
-  renderPanel() {
-
   } 
 
   render() {
@@ -42,7 +38,7 @@ class GuidePreview extends Component{
       }
       //console.log("GUIDE", guide)
       console.log("GUIDE TITLE", guide)
-      console.log("OPEN = ", index, open, this.props.onClick)
+      console.log("OPEN = ", index, open)
        return (
           <div className = "guidePanel">
             <Panel header={guide.title} collapsible="true" expanded = {open} 
