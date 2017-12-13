@@ -58,6 +58,7 @@ class SignUpPage extends Component {
   }
 
   handleSubmit(event) {
+    event.preventDefault();
     fetch('/api/sign-up', {
       method: 'POST',
       headers: {
