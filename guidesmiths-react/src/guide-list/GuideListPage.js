@@ -20,7 +20,7 @@ class GuideListPage extends Component {
   handleClick(guideID) {
     console.log(guideID);
     this.setState({hasBeenClicked: !this.state.hasBeenClicked});
-    fetch(`/api/guide/?id=${guideID}`)
+    fetch(`/api/guide?id=${guideID}`)
      .then(res => {if(res.ok) {
         return res.json();}
         throw new Error('Network response was not ok.');})
@@ -33,17 +33,31 @@ class GuideListPage extends Component {
   // maybe a solution, a lifecycle method of Component, to reset the render state on Preview click?
   componentWillReceiveProps(){}
 
+
   componentDidMount() {
+    let temp = [];
     fetch('/api/guides')
       .then(res => {if(res.ok) {
         return res.json();}
         throw new Error('Network response was not ok.');})
-      .then(data => {this.setState({guides: data})})
+      .then(data => {
+        this.setState({guides: data});
+        this.state.guides.forEach((guide)=> {
+          fetch(`/api/guide-steps/?id=${guide.guideID}`)
+            .then(res => res.json())
+            .then(data => {
+              temp = this.state.steps;
+              temp.push(data);
+              this.setState({steps: temp})
+            })
+          })
+      })
       .catch(console.error)
   }
 
   render() {
-    console.log("render guides = ", this.state.guides)
+    //console.log("render guides = ", this.state.guides)
+    //console.log("render steps = ", this.state.steps)
     const guides = this.state.guides.map(guide => {
       return <GuidePreview
         key={`guide${guide.guideID}`}
@@ -53,6 +67,15 @@ class GuideListPage extends Component {
         />
     })
 
+    const steps = this.state.steps.map(steps => {
+      //console.log("HELLO", steps);
+      return <GuidePreview
+        key={`steps${steps.postID}`}
+        steps={steps} 
+        //onClick={guideID => this.handleClick(guideID)}
+        //hasBeenClicked = {this.state.hasBeenClicked}
+        />
+    })
 
     if(this.hasBeenClicked) {
       return (
