@@ -12,7 +12,9 @@ let upload = multer({dest: path})
 // let upload = multer({dest: './gifs'})
 
 router.get('/whoami', (req, res) => {
-  res.json(req.user);
+  models.Users.findById("rcole831").then((user) => {
+    res.json(user.userName);
+  });
 })
 
 router.get('/logout', (req, res) => {
@@ -26,13 +28,29 @@ router.get('/guide/', (req, res) => {
     },
     order: [
       ['createdAt','ASC']
-    ]
+    ],
+    attributes: ['title', 'content', 'gifLocation']
   })
   .then(steps => {
     models.Guide.findById(req.query.id)
     .then(guide => {
       res.json({steps, guide});
     })
+  })
+})
+
+router.get('/guide-steps/', (req, res) => {
+  models.Steps.findAll({
+    where: {
+      GuideGuideID: req.query.id
+    },
+    order: [
+      ['createdAt','ASC']
+    ],
+    attributes: ['title', 'content', 'gifLocation']
+  })
+  .then(steps => {
+    res.json(steps);
   })
 })
 
@@ -132,7 +150,7 @@ router.post('/comment', (req, res) => {
 })
 
 router.post('/login', passport.authenticate('local'), (req, res) => {
-  res.json(req.user.userName)
+  res.json(req.user.userName);
 });
 
 /*
