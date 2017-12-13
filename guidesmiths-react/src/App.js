@@ -28,7 +28,7 @@ class App extends Component {
         <div className="FixedUI">
           <header className="App-header">
             <h1 className="App-title" >{`Welcome to GuideSmiths${(this.state.loggedIn ? ", " : "") + this.state.username}!`}</h1>
-            <br/><br/>
+            <br/>
             <Nav justified activeKey={3} bsStyle="pills">
               <LinkContainer to="/guide-form"><NavItem eventKey={1}>Guide Form</NavItem></LinkContainer>
               <LinkContainer to="/guide-list"><NavItem eventKey={2}>Guide List</NavItem></LinkContainer>
