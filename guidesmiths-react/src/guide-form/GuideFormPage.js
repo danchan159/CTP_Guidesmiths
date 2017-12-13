@@ -66,11 +66,17 @@ class GuideFormPage extends Component {
   handleSubmit(event) {
     event.preventDefault();
     let data = new FormData(document.getElementById("myForm"));
-
+    let info = null;
+    fetch('/api/whoami', {
+    }).then(res => {
+      return res.json();
+    }).then(result => {
+      info = result;
+    })
     // this.state.guideSteps.foreach(step => {
     //   data.append('user')
     // });
-    data.append('userName', this.props.user.userName)
+    data.append('userName', info)
     // data.append('title', this.state.guideTitle)
     // data.append('subtitle', this.state.guideSubtitle)
     // data.append('summary', this.state.guideSummary)

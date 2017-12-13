@@ -40,17 +40,21 @@ router.get('/guide/', (req, res) => {
 })
 
 router.get('/guide-steps/', (req, res) => {
+  let result = [];
   models.Steps.findAll({
     where: {
       GuideGuideID: req.query.id
     },
     order: [
-      ['createdAt','ASC']
+      ['stepNumber','ASC']
     ],
-    attributes: ['title', 'content', 'gifLocation']
+    attributes: ['title', 'content', 'gifLocation', 'GuideGuideID']
   })
   .then(steps => {
-    res.json(steps);
+    for (let step of steps){
+      result.push(step.dataValues);
+    }
+    res.json(result);
   })
 })
 
@@ -97,11 +101,11 @@ router.post('/guide-form/post', upload.array('gifs', 5), (req,res) => {
     subtitle: req.body.subtitle,
     summary: req.body.summary,
     Steps: [
-      {content: req.body.Step1, title: req.body.Step1Title},
-      {content: req.body.Step2, title: req.body.Step2Title},
-      {content: req.body.Step3, title: req.body.Step3Title},
-      {content: req.body.Step4, title: req.body.Step4Title},
-      {content: req.body.Step5, title: req.body.Step5Title},
+      {content: req.body.Step1, title: req.body.Step1Title, stepNumber: "1"},
+      {content: req.body.Step2, title: req.body.Step2Title, stepNumber: "2"},
+      {content: req.body.Step3, title: req.body.Step3Title, stepNumber: "3"},
+      {content: req.body.Step4, title: req.body.Step4Title, stepNumber: "4"},
+      {content: req.body.Step5, title: req.body.Step5Title, stepNumber: "5"},
     ],
     Categories: [
       {name: req.body.CatName}

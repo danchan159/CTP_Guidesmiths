@@ -35,7 +35,6 @@ class GuideListPage extends Component {
 
 
   componentDidMount() {
-    let temp = [];
     fetch('/api/guides')
       .then(res => {if(res.ok) {
         return res.json();}
@@ -46,9 +45,7 @@ class GuideListPage extends Component {
           fetch(`/api/guide-steps/?id=${guide.guideID}`)
             .then(res => res.json())
             .then(data => {
-              temp = this.state.steps;
-              temp.push(data);
-              this.setState({steps: temp})
+              this.setState({steps: this.state.steps.concat(data)})
             })
           })
       })
@@ -57,22 +54,13 @@ class GuideListPage extends Component {
 
   render() {
     //console.log("render guides = ", this.state.guides)
-    //console.log("render steps = ", this.state.steps)
+    //console.log("render steps = ", this.state.steps[0])
     const guides = this.state.guides.map(guide => {
       return <GuidePreview
         key={`guide${guide.guideID}`}
         guide={guide} 
+        steps={this.state.steps}
         onClick={guideID => this.handleClick(guideID)}
-        //hasBeenClicked = {this.state.hasBeenClicked}
-        />
-    })
-
-    const steps = this.state.steps.map(steps => {
-      //console.log("HELLO", steps);
-      return <GuidePreview
-        key={`steps${steps.postID}`}
-        steps={steps} 
-        //onClick={guideID => this.handleClick(guideID)}
         //hasBeenClicked = {this.state.hasBeenClicked}
         />
     })

@@ -34,11 +34,13 @@ passport.use(new LocalStrategy({
 );
 
 passport.serializeUser((user, done) => {
+  console.log("SERIALIZE USER");
   done(null, user.userName);
 });
 
-passport.deserializeUser((id, done) => {
-  Users.findById(id).then((user) => {
+passport.deserializeUser((userName, done) => {
+  console.log("DESERIALIZE USER");
+  Users.findById(userName).then((user) => {
     if (!user) {
       return done(null, false);
     }
