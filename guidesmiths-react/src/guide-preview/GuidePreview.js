@@ -42,7 +42,7 @@ class GuidePreview extends Component{
        return (
           <div className = "guidePanel">
             <Panel header={guide.title} collapsible="true" expanded = {open} 
-                onSelect={() => this.props.onSelect(this.props.index)} eventKey={guide.guideID}>
+                onSelect={() => this.props.onSelect(this.props.index)} bsStyle="info" eventKey={guide.guideID}>
              <ListGroup fill>
              <ListGroupItem bsStyle="info">  
              <h2>{guide.title}</h2>
