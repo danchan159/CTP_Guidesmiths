@@ -47,36 +47,51 @@ const GuidePreview = (props) => {
          <br></br>
          {stepContent[0]}
          <br></br>
+
          </ListGroupItem>
          <ListGroupItem bsStyle="info">
          <h4>Step2:</h4>{stepTitle[1]}
+
          {stepGL[1]}
          <br></br>
          {stepContent[1]}
          <br></br>
+
          </ListGroupItem>
          <ListGroupItem bsStyle="success">
          <h4>Step3:</h4>{stepTitle[2]}
+
+
          {stepGL[2]}
          <br></br>
          {stepContent[2]}
          <br></br>
+
          </ListGroupItem>
          <ListGroupItem bsStyle="info">
          <h4>Step4:</h4>{stepTitle[3]}
+
+
          {stepGL[3]}
          <br></br>
          {stepContent[3]}
          <br></br>
+
          </ListGroupItem>
          <ListGroupItem bsStyle="success">
          <h4>Step5:</h4>{stepTitle[4]}
+
+
          {stepGL[4]}
          <br></br>
          {stepContent[4]}
          <br></br>
+
          </ListGroupItem>
       </ListGroup>
+
+         
+
        </Panel>
        </div>
    )

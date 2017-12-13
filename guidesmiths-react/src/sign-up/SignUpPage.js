@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
 import './SignUpPage.css';
 
 class SignUpPage extends Component {
-	constructor(props) {
+  constructor(props) {
     super(props);
 
     this.state = {
@@ -11,6 +12,7 @@ class SignUpPage extends Component {
       email: "",
       userName: "",
       password: "",
+      signedUpSuccessfully: false
     }
 
     this.onFirstNameChange = this.onFirstNameChange.bind(this);
@@ -23,6 +25,7 @@ class SignUpPage extends Component {
 
   render() {
     return(
+      this.state.signedUpSuccessfully ? <Redirect to="/guide-list" /> : 
       <div className="form-group">
         <form action="POST" onSubmit={this.handleSubmit}>
           First Name:<input type="text" name="firstName" className="form-control" onChange={this.onFirstNameChange}/><br/>
@@ -58,6 +61,7 @@ class SignUpPage extends Component {
   }
 
   handleSubmit(event) {
+    event.preventDefault();
     fetch('/api/sign-up', {
       method: 'POST',
       headers: {
@@ -73,12 +77,16 @@ class SignUpPage extends Component {
       })
     })
     .then(res => {
-    	console.log(res);
-    	return res.json();
+      console.log(res);
+      if(res.ok) {
+        this.setState({
+          signedUpSuccessfully: true
+        })
+      }
+      return res.json();
     })
     .then(json => console.log(json))
     .catch(err => console.log(err));
-
     // let url = window.location.href;
     // for(let i = 0; i < url.length; ++i) {
     //   if(url.charAt(i) === '?') {
