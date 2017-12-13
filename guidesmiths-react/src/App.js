@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Route, Link, NavLink, Switch } from 'react-router-dom';
+import { Route, Link, NavLink, Switch, Redirect } from 'react-router-dom';
 import { Nav, NavItem } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import './App.css';
@@ -15,24 +15,11 @@ class App extends Component {
     super(props);
 
     this.state = {
-      userID: null,
-      loggedIn: false
+      username: "",
+      loggedIn: false,
+      canRedirectPostLogin: true
     };
-    this.handleClick = this.handleClick.bind(this);
-  }
-
-  testRequest(){
-    
-
-    fetch('/api')
-    .then(res => {
-      console.log(res);
-      return res.json();
-    }) 
-    .then(json => {
-      console.log(json);
-    })
-    .catch(err => console.log(err));
+    this.userLoggedIn = this.userLoggedIn.bind(this);
   }
 
   render() {
@@ -40,18 +27,16 @@ class App extends Component {
       <div className="App">
         <div className="FixedUI">
           <header className="App-header">
-            <h1 className="App-title">Welcome to GuideSmiths</h1>
+            <h1 className="App-title" >{`Welcome to GuideSmiths${(this.state.loggedIn ? ", " : "") + this.state.username}!`}</h1>
+            <br/><br/><br/>
+            <Nav justified activeKey={3} bsStyle="pills">
+              <LinkContainer to="/guide-form"><NavItem eventKey={1}>Guide Form</NavItem></LinkContainer>
+              <LinkContainer to="/guide-list"><NavItem eventKey={2}>Guide List</NavItem></LinkContainer>
+              <LinkContainer exact to="/"><NavItem eventKey={3} ref="home">Home</NavItem></LinkContainer>
+              <LinkContainer to="/sign-up"><NavItem eventKey={4}>Sign Up</NavItem></LinkContainer>
+              <LinkContainer to="/login"><NavItem eventKey={5}>Login</NavItem></LinkContainer>
+            </Nav>
           </header>
-          <p>
-            {this.testRequest()}
-          </p>
-          <Nav justified activeKey={3} bsStyle="pills">
-            <LinkContainer to="/guide-form"><NavItem eventKey={1}>Guide Form</NavItem></LinkContainer>
-            <LinkContainer to="/guide-list"><NavItem eventKey={2}>Guide List</NavItem></LinkContainer>
-            <LinkContainer exact to="/"><NavItem eventKey={3} ref="home">Home</NavItem></LinkContainer>
-            <LinkContainer to="/sign-up"><NavItem eventKey={4}>Sign Up</NavItem></LinkContainer>
-            <LinkContainer to="/login"><NavItem eventKey={5}>Login</NavItem></LinkContainer>
-          </Nav>
         </div>
       {/* Since Routes need to be passed props, namely the user information, we are using 'render' instead of 'component' 
           so we can use it in an inline call */}
@@ -59,47 +44,27 @@ class App extends Component {
         <Route path="/guide-list" render={(routeProps) => <GuideListPage user={this.state} {...routeProps}/>}/>
         <Route exact path="/" render={(routeProps) => <HomePage user={this.state} {...routeProps}/>}/>
         <Route path="/sign-up" render={(routeProps) => <SignUpPage user={this.state} {...routeProps}/>}/>
-        <Route path="/login" render={(routeProps) => <LoginPage user={this.state} {...routeProps}/>}/>
+        <Route path="/login" render={(routeProps) => (
+          this.state.loggedIn && this.state.canRedirectPostLogin ? (
+            <div>
+              {this.setState({  canRedirectPostLogin: false  })}
+              <Redirect to="/guide-list"/>
+            </div>
+          ) : (
+            <LoginPage user={this.state} updateCurUser={this.userLoggedIn} {...routeProps}/>
+          )
+        )}/>
       </div>
     );
   }
 
-  // whatToDisplay() {
-    
-  //   let display = this.state.display;
-  //   if(display === "LoginPage") {
-  //     return(
-  //       <div>
-  //         <div>
-  //           <LoginPage />
-  //         </div>
-  //       </div>
-  //     );
-  //   }
-  //   else if(display === "GuideListPage") {
-  //     return <GuideListPage onClick={event => this.handleClick(event)} />;
-  //   }
-  //   else if(display === "SignUpPage") {
-  //     return <SignUpPage onSignUp={event => this.handleClick(event)} />;
-  //   }
-  //   else if(display === "GuideFormPage") {
-  //     return <GuideFormPage onClick={event => this.handleClick(event)} />;
-  //   }
-  //   else if(display === "GuideViewPage") {
-  //     return <GuideViewPage onClick={event => this.handleClick(event)} />;
-  //   }
-  // }
-
-  handleClick(event){
-    console.log(event);
+  userLoggedIn(username) {
     this.setState({
-      display: "GuideListPage"
-    });
+      username,
+      loggedIn: true,
+      canRedirectPostLogin: true
+    })
   }
-
-  // handleClick(){
-  //   console.log("I was clicked!");
-  // }
 }
 
 export default App;

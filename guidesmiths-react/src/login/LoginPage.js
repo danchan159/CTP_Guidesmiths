@@ -1,6 +1,13 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
 import { FormGroup, FormControl, ControlLabel, Button } from 'react-bootstrap';
 import './LoginPage.css';
+
+// const RedirectPostSignUp = () => {
+//   render(){
+
+//   }
+// }
 
 class LoginPage extends Component {
   constructor(props) {
@@ -37,6 +44,7 @@ class LoginPage extends Component {
   }
 
   handleSubmit(event) {
+    //let resJson;
     event.preventDefault();
     fetch('/api/login', {
       method: 'POST',
@@ -53,7 +61,10 @@ class LoginPage extends Component {
       console.log(res);
       return res.json();
     })
-    .then(json => console.log(json))
+    .then(json => {
+      this.props.updateCurUser(json);
+      console.log(json);
+    })
     .catch(err => console.log(err));
   }
 
