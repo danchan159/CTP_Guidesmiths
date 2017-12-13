@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Jumbotron } from 'react-bootstrap';
 import './GuideListPage.css';
 import GuidePreview from '../guide-preview/GuidePreview.js';
-import GuideContentPage from '../guide-content-page/GuideContentPage.js';
+//import GuideContentPage from '../guide-content-page/GuideContentPage.js';
 
 class GuideListPage extends Component {
   constructor(props) {
@@ -92,7 +92,7 @@ class GuideListPage extends Component {
     } else {*/
       return (
        <Jumbotron>
-          <h1> All Guides </h1>
+          <h2> The Guides! Submit Your Own! </h2>
           <div className="container">
             <p></p>
             { guides }
