@@ -24,7 +24,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 const expressSession = require('express-session');
 const passport = require('./middlewares/authentication');
 
-app.use(expressSession(({ secret: 'keyboard cat' })));
+app.use(expressSession(({ secret: 'keyboard cat'})));
 app.use(passport.initialize());
 app.use(passport.session());
 

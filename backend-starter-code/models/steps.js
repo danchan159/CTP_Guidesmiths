@@ -10,6 +10,7 @@ module.exports = (sequelize, DataTypes) => {
 		content: DataTypes.STRING('180'),
 		gifLocation: DataTypes.STRING,
 		title: DataTypes.STRING('80'),
+		stepNumber: DataTypes.STRING,
 	});	
 
 	return Steps;
