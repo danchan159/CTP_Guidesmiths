@@ -16,10 +16,10 @@ class GuideListPage extends Component {
      open: []
     }
 
-  this.handleClick = this.handleClick.bind(this)
+  this.handleSelect = this.handleSelect.bind(this)
   }
 
-  handleClick(index) {
+  handleSelect(index) {
     let tempOpen = this.state.open
     tempOpen[index] = !tempOpen[index]
     this.setState({open: tempOpen});
@@ -66,7 +66,7 @@ class GuideListPage extends Component {
         key={`guide${guide.guideID}`}
         guide={guide} 
         steps={this.state.steps}
-        onClick={this.handleClick}
+        onSelect={this.handleSelect}
         //hasBeenClicked = {this.state.hasBeenClicked}
         open = {this.state.open[index]}
         index = {index}
