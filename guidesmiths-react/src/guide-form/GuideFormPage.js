@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { FormGroup, FormControl, ControlLabel, HelpBlock, Button } from 'react-bootstrap';
+import { FormGroup, FormControl, ControlLabel, HelpBlock, Button, Form } from 'react-bootstrap';
 import './GuideFormPage.css';
 
 const FieldInputGroup = ({ id, label, help, value, ...props }) => {
@@ -33,14 +33,16 @@ class GuideFormPage extends Component {
 
   render() {
     return(
-      <form action="POST" onSubmit={this.handleSubmit} id = "myForm">
-        <FieldInputGroup
-          id="guideTitle"
-          label="Guide Title:"
-          help="*Pick a good title for your guide.*"
-          type="text" value={this.state.guideTitle} placeholder="My Guide Title" onChange={this.handleChange}
-          name = "title"
-        />
+      <Form action="POST" onSubmit={this.handleSubmit} id = "myForm">
+        <div id="guideTitleWrapper">
+          <FieldInputGroup
+            id="guideTitle"
+            label="Guide Title:"
+            help="*Pick a good title for your guide.*"
+            type="text" value={this.state.guideTitle} placeholder="My Guide Title" onChange={this.handleChange}
+            name = "title"
+          />
+        </div>
         <br/>
         <FieldInputGroup
           id="guideSubtitle"
@@ -59,7 +61,7 @@ class GuideFormPage extends Component {
           name = "summary"
         />
         <Button type="submit">Submit</Button>
-      </form>
+      </Form>
     );
   }
 
@@ -168,33 +170,39 @@ class GuideFormPage extends Component {
     let keyCounter = 0;
     for(let stepNum = 0; stepNum < numSteps; stepNum++) {
       steps.push(
-        <div>
-          <FieldInputGroup
-            id={`step${stepNum + 1}Title`}
-            label={`Step ${stepNum + 1}: Title`}
-            help={`*Choose a title for ${stepNum + 1}.*`}
-            index={stepNum} type="text" maxLength="60" 
-            placeholder={`My Step Text`} onChange={this.handleChange} key={keyCounter++}
-            name = {`Step${stepNum + 1}Title`}
-          />
+        <div className="stepInputGroup">
+          <div className="stepTitleWrapper">
+            <FieldInputGroup className="stepTitle"
+              id={`step${stepNum + 1}Title`}
+              label={`Step ${stepNum + 1}: Title`}
+              help={`*Choose a title for ${stepNum + 1}.*`}
+              index={stepNum} type="text" maxLength="60" 
+              placeholder={`My Step Text`} onChange={this.handleChange} key={keyCounter++}
+              name = {`Step${stepNum + 1}Title`}
+            />
+          </div>
           <br/>
-          <FieldInputGroup
-            id={`step${stepNum + 1}Gif`}
-            label={`Gif ${stepNum + 1}:`}
-            help={`*Upload your gif for step ${stepNum + 1}.*`}
-            index={stepNum} type="file"
-            placeholder={`My Step Text`} onChange={this.handleChange} key={keyCounter++}
-            name = "gifs"
-          />
+          <div className="stepGifWrapper">
+            <FieldInputGroup className="stepGif"
+              id={`step${stepNum + 1}Gif`}
+              label={`Gif ${stepNum + 1}:`}
+              help={`*Upload your gif for step ${stepNum + 1}.*`}
+              index={stepNum} type="file"
+              placeholder={`My Step Text`} onChange={this.handleChange} key={keyCounter++}
+              name = "gifs"
+            />
+          </div>
           <br/>
-          <FieldInputGroup
-            id={`step${stepNum + 1}Content`}
-            label={`Step ${stepNum + 1}: Content`}
-            help={`*Fill in the content for step ${stepNum + 1}.*`}
-            index={stepNum} type="text" componentClass="textarea" maxLength="200"
-            placeholder={`My Step Text`} onChange={this.handleChange} key={keyCounter++}
-            name = {`Step${stepNum + 1}`}
-          />
+          <div className="stepContentWrapper">
+            <FieldInputGroup
+              id={`step${stepNum + 1}Content`} className="stepContent"
+              label={`Step ${stepNum + 1}: Content`}
+              help={`*Fill in the content for step ${stepNum + 1}.*`}
+              index={stepNum} type="text" componentClass="textarea" maxLength="200" 
+              placeholder={`My Step Text`} onChange={this.handleChange} key={keyCounter++}
+              name = {`Step${stepNum + 1}`}
+            />
+          </div>
           <br/>
         </div>
       );
