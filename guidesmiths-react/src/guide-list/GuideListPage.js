@@ -11,27 +11,28 @@ class GuideListPage extends Component {
       guides: [],
       steps: [],
       guide: null,
-      hasBeenClicked: false
+     // hasBeenClicked: false
+     // open: true,
+     open: []
     }
 
   this.handleClick = this.handleClick.bind(this)
   }
 
-  handleClick(guideID) {
-    console.log(guideID);
-    this.setState({hasBeenClicked: !this.state.hasBeenClicked});
-    fetch(`/api/guide?id=${guideID}`)
+  handleClick(index) {
+    let tempOpen = this.state.open
+    tempOpen[index] = !tempOpen[index]
+    this.setState({open: tempOpen});
+    console.log("the open state = ", this.state);
+   /* fetch(`/api/guide?id=${guideID}`)
      .then(res => {if(res.ok) {
         return res.json();}
         throw new Error('Network response was not ok.');})
       .then(data => this.setState({steps: data.steps, guide: data.guide}))
             //data => console.log("data = ", data))
       .then(console.log(this.state.hasBeenClicked, this.state.steps, this.state.guide))
-      .catch(console.error)
+      .catch(console.error)*/
   }
-
-  // maybe a solution, a lifecycle method of Component, to reset the render state on Preview click?
-  componentWillReceiveProps(){}
 
 
   componentDidMount() {
@@ -45,27 +46,37 @@ class GuideListPage extends Component {
           fetch(`/api/guide-steps/?id=${guide.guideID}`)
             .then(res => res.json())
             .then(data => {
-              this.setState({steps: this.state.steps.concat(data)})
+              let tempOpenData = this.state.open
+              tempOpenData.push(false)
+              this.setState({steps: this.state.steps.concat(data),
+                    open: tempOpenData
             })
           })
+      })
       })
       .catch(console.error)
   }
 
+
   render() {
     //console.log("render guides = ", this.state.guides)
     //console.log("render steps = ", this.state.steps[0])
-    const guides = this.state.guides.map(guide => {
+    const guides = this.state.guides.map((guide, index) => {
       return <GuidePreview
         key={`guide${guide.guideID}`}
         guide={guide} 
         steps={this.state.steps}
-        onClick={guideID => this.handleClick(guideID)}
+        onClick={this.handleClick}
         //hasBeenClicked = {this.state.hasBeenClicked}
+        open = {this.state.open[index]}
+        index = {index}
         />
     })
+// this if/else didn't work out, next possible solution to try out is use 
+// this.props.query.location to find out the url, and extract the guideID from the url 
+// as a string, and pass it to a fetch function /api/guide?=guideID
 
-    if(this.hasBeenClicked) {
+   /* if(this.hasBeenClicked) {
       return (
         <Jumbotron>
           <h1> Requested Guide </h1>
@@ -78,7 +89,7 @@ class GuideListPage extends Component {
           </div>
         </Jumbotron>
       )
-    } else {
+    } else {*/
       return (
        <Jumbotron>
           <h1> All Guides </h1>
@@ -88,54 +99,8 @@ class GuideListPage extends Component {
           </div>
       </Jumbotron>
       )
-    } 
-  }
-
- 
-  /*
-  render() {
-    return(
-      <div className="panel panel-body">
-        <label>List of Guides</label><br/><br/>
-        <label>Guide 1</label>
-          <div className="panel panel-body">
-            <ul>
-              <li>
-                <label>Step 1</label>
-                <p>Put instructions and GIF here</p>
-              </li>
-              <li>
-                <label>Step 2</label>
-                <p>Put instructions and GIF here</p>
-              </li>
-              <li>
-                <label>Step n</label>
-                <p>Put instructions and GIF here</p>
-              </li>
-            </ul>
-          </div>
-        <label>Guide 2</label>
-          <div className="panel panel-body">
-            <ul>
-              <li>
-                <label>Step 1</label>
-                <p>Put instructions and GIF here</p>
-              </li>
-              <li>
-                <label>Step 2</label>
-                <p>Put instructions and GIF here</p>
-              </li>
-              <li>
-                <label>Step n</label>
-                <p>Put instructions and GIF here</p>
-              </li>
-            </ul>
-          </div>
-      </div>
-    );
-  }*/
-
-
+  } 
 }
+
 
 export default GuideListPage;
