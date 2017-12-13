@@ -7,7 +7,7 @@ module.exports = (sequelize, DataTypes) => {
 			defaultValue: DataTypes.UUIDV4,
       		allowNull: false
 		},
-		content: DataTypes.STRING('180'),
+		content: DataTypes.TEXT,
 		gifLocation: DataTypes.STRING,
 		title: DataTypes.STRING('80'),
 		stepNumber: DataTypes.STRING,
